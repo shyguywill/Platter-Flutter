@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 class IngredientTable extends StatefulWidget {
-  List<Map> _ingredientlist;
+  final List<Map> _ingredientlist;
+ 
+  
 
   IngredientTable(this._ingredientlist);
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
+   
     return _IngredientTable();
   }
 }

@@ -5,35 +5,40 @@ class SearchRecipes extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
-      padding: EdgeInsets.only(top: 10.0,left: 5.0,right: 5.0),
-      child: Column(children: <Widget>[
-      Card(
-        child: Column(
-          children: <Widget>[
-            Text("Search new recipes for meals you love"),
-            SizedBox(
-        height: 30.0,
-      ),
-            TextField(
+        padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 10),
+        child: Column(children: <Widget>[
+          Container(
+            child: TextField(
+              style: TextStyle(height: 0.7),
               decoration: InputDecoration(
+                fillColor: Colors.white,
+                border: 
+                 OutlineInputBorder(
+                  borderSide: BorderSide(
+                    style: BorderStyle.solid,
+                    width: 0.00
+                  ),
+                    borderRadius: BorderRadius.all(Radius.circular(35))),
+                suffixIcon: Icon(
+                  Icons.search,
+                  color: Theme.of(context).accentColor,
+                ),
                 filled: true,
-                fillColor: Colors.green[100],
               ),
+              onChanged: (value) {
+
+              },
             ),
-            SizedBox(
-        height: 30.0,
-      ),
-      FlatButton(
-        child: Text("Search"),
-        onPressed: (){},
-      ),
-            
-            SizedBox(
-        height: 30.0,
-      ),
-          ],
-        ),
-      ),
-    ]));
+          ),
+          SizedBox(
+            height: 20.0,
+          ),
+          Expanded(
+              child: Card(
+            child: Center(
+              child: Text("Search for your favourite recipes"),
+            ),
+          ))
+        ]));
   }
 }

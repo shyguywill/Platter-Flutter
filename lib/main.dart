@@ -9,7 +9,7 @@ class MyApp extends StatefulWidget{
 
 @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
+    
     return _MyApp();
   }
 
@@ -23,6 +23,16 @@ class _MyApp extends State<MyApp>{
     {"Ingredient": "Chicken", "Selected": true}
   ];
 
+   void addIngredient(String item){
+
+     Map<String, Object> newItem = {"Ingredient": item, "Selected": false};
+     pantryIngredients.add(newItem);
+   }
+
+   void deleteIngredient(int index){
+     pantryIngredients.removeAt(index);
+   }
+
 
 @override
   Widget build(BuildContext context) {
@@ -34,7 +44,7 @@ class _MyApp extends State<MyApp>{
       ),
       home: Home(),
       routes: {
-        "/pantry":(context) => Pantry(pantryIngredients)
+        "/pantry":(context) => Pantry(pantryIngredients,addIngredient)
       },
 
     );
