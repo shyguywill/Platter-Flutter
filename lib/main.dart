@@ -44,7 +44,7 @@ class _MyApp extends State<MyApp>{
       ),
       home: Home(),
       routes: {
-        "/pantry":(context) => Pantry(pantryIngredients,addIngredient)
+        "/pantry":(context) => Pantry(pantryIngredients,addIngredient,deleteIngredient)
       },
 
     );

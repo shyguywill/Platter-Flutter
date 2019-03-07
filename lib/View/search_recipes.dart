@@ -5,19 +5,16 @@ class SearchRecipes extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
         child: Column(children: <Widget>[
           Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(35)),
             child: TextField(
               style: TextStyle(height: 0.7),
               decoration: InputDecoration(
+                
                 fillColor: Colors.white,
-                border: 
-                 OutlineInputBorder(
-                  borderSide: BorderSide(
-                    style: BorderStyle.solid,
-                    width: 0.00
-                  ),
+                border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(35))),
                 suffixIcon: Icon(
                   Icons.search,
@@ -25,9 +22,7 @@ class SearchRecipes extends StatelessWidget {
                 ),
                 filled: true,
               ),
-              onChanged: (value) {
-
-              },
+              onChanged: (value) {},
             ),
           ),
           SizedBox(

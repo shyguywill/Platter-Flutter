@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 
 import '../Controller/pantry_list_table.dart';
+import "../secrets.dart";
+import './recipe_list.dart';
 
 class Pantry extends StatefulWidget {
   final List<Map> ingredients;
   final Function _addItem;
+  final Function _deleteItem;
 
-  Pantry(this.ingredients, this._addItem);
+  Pantry(this.ingredients, this._addItem, this._deleteItem);
 
   @override
   State<StatefulWidget> createState() {
@@ -73,11 +76,11 @@ class _Pantry extends State<Pantry> {
           style: TextStyle(color: Theme.of(context).accentColor),
         ),
       ),
-      body: IngredientTable(widget.ingredients),
+      body: IngredientTable(widget.ingredients, widget._deleteItem),
       floatingActionButton: Container(
-          width: 120.0,
-          height: 50.0,
-          child: RawMaterialButton(
+        width: 120.0,
+        height: 50.0,
+        child: RawMaterialButton(
             fillColor: Colors.pinkAccent,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0)),
@@ -86,8 +89,24 @@ class _Pantry extends State<Pantry> {
               "Platter Me",
               style: TextStyle(color: Colors.white),
             ),
-            onPressed: () {},
-          )),
+            onPressed: () {
+              if (IngredientTable.selectedItem != null) {
+                var items = IngredientTable.selectedItem
+                    .join(",")
+                    .replaceAll(" ", "%20");
+
+                var url =
+                    "${EdmAPI.baseURL + items}&app_id=${EdmAPI.appID}&app_key=${EdmAPI.appKey}&from=0&to=100";
+
+                print(url);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => RecipePage(url),
+                    ));
+              }
+            }),
+      ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
