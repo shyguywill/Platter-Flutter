@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import './home.dart';
 
-import './View/pantry_list.dart';
+import "./View/list_and_search.dart";
 
 main() => runApp(MyApp());
 
@@ -41,10 +41,10 @@ class _MyApp extends State<MyApp>{
       theme: ThemeData(
         primaryColor: Colors.white,
         accentColor: Colors.indigo[900],
-      ),
-      home: Home(),
+      ), 
       routes: {
-        "/pantry":(context) => Pantry(pantryIngredients,addIngredient,deleteIngredient)
+        "/":(context) => Home(),
+        "/search":(context) => SearchList(pantryIngredients,addIngredient,deleteIngredient)
       },
 
     );
