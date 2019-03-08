@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 class StartPage extends StatelessWidget {
-
-
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -25,32 +23,42 @@ class StartPage extends StatelessWidget {
             ],
           ),
         ),
-        Card(
-          child: Column(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  "Let's cook",
-                  style: TextStyle(fontFamily: "Futura", fontSize: 35,
-                  color: Colors.pink[400]),
-                ),
-              ),
-
-              Container(
-                padding: EdgeInsets.all(10),
-                height: 300,
-                width: 300,
-                child: FlatButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, "/search");
-                  },
-                  child: Image.asset("assets/go.png"),
-                ),
-              )
-            ],
-          ),
-        )
+        Container(
+            height: 570,
+            child: Card(
+              child:Column(children: <Widget>[
+                Expanded(
+                    child: FittedBox(
+                  fit: BoxFit.contain,
+                  child:  Column(
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          child: Text(
+                            "Let's cook",
+                            style: TextStyle(
+                                fontFamily: "Futura",
+                                fontSize: 35,
+                                color: Colors.pink[300]),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(10),
+                          height: 200,
+                          width: 200,
+                          child: FlatButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, "/search");
+                            },
+                            child: Image.asset("assets/go.png"),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            )))
       ],
     );
   }

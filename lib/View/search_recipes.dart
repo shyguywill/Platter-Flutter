@@ -4,10 +4,12 @@ class SearchRecipes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Container(
+    return ListView(children: <Widget>[ Container(
+      height: 720,
         padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
         child: Column(children: <Widget>[
           Container(
+            
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(35)),
             child: TextField(
               style: TextStyle(height: 0.7),
@@ -34,6 +36,6 @@ class SearchRecipes extends StatelessWidget {
               child: Text("Search for your favourite recipes"),
             ),
           ))
-        ]));
+        ]))],);
   }
 }
