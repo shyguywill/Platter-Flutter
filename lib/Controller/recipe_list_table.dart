@@ -16,21 +16,22 @@ class RecipeTable extends StatefulWidget {
 }
 
 class _RecipeTable extends State<RecipeTable> {
-  List data;
+  List data = [];
   String finalUrl;
 
   @override
   void initState() {
     super.initState();
 
+    print("initstate");
+
     finalUrl = widget._finalURL;
   }
 
   Future<String> getData() async {
-    //Netwwork
+    //Network
     print("Setting getting data");
-    var res = await http
-        .get(Uri.encodeFull(finalUrl), headers: {"Accept": "application/json"});
+    var res = await http.get(Uri.encodeFull(finalUrl), headers: {"Accept": "application/json"});
 
     setState(() {
       //Parse Json
@@ -44,9 +45,18 @@ class _RecipeTable extends State<RecipeTable> {
 
   @override
   Widget build(BuildContext context) {
+
+    getData(); //start networking
+
     return ListView.builder(
+      itemCount: data.length,
         itemBuilder: (BuildContext context, int row) {
-          return Container(
+
+          return data.isEmpty ? Container(
+            height: 150,
+            margin: EdgeInsets.all(5),
+            child: ListTile()
+          ) : Container(
             height: 150,
             margin: EdgeInsets.all(5),
             child: 
@@ -61,20 +71,26 @@ class _RecipeTable extends State<RecipeTable> {
                     },
                   ),
                     decoration: BoxDecoration(
-                        image: DecorationImage( //Assign image asvdecoration, allowing for cropping
-                          image: AssetImage(
-                            "assets/testimage.jpg",
+                        image: DecorationImage(
+                          colorFilter: ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.darken), //Assign image asvdecoration, allowing for cropping
+                          image: NetworkImage(
+                            data[row]["recipe"]["image"],
+                            
+                            
                           ),
                           fit: BoxFit.cover,
                         ),
-                        //border: Border.all(w),
+                        
                         borderRadius: BorderRadius.all(Radius.circular(10)))),
                         
                 Align(
                   alignment: Alignment.topCenter,
                   child: Text(
-                    "Title here",
+                    data[row]["recipe"]["label"],
+                    
                     style: TextStyle(
+                      
+                      
                       color: Colors.white,
                       fontSize: 22,
                       fontFamily: "Futura",
@@ -106,7 +122,7 @@ class _RecipeTable extends State<RecipeTable> {
             ),
           );
         },
-        itemCount: 10 //data.length,
+        
         );
   }
 }

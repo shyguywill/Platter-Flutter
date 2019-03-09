@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
-import './home.dart';
+import 'package:flutter/services.dart';
 
+
+import './home.dart';
 import "./View/list_and_search.dart";
 
-main() => runApp(MyApp());
+
+
+void main() {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]) //Lock orientation to portrait
+    .then((_) {
+      runApp(new MyApp());
+    });
+}
+
 
 class MyApp extends StatefulWidget{
 

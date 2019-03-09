@@ -5,30 +5,37 @@ class SearchRecipes extends StatelessWidget {
   Widget build(BuildContext context) {
     // TODO: implement build
     return ListView(children: <Widget>[ Container(
-      height: 720,
+      height: 550,
         padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
         child: Column(children: <Widget>[
+          
           Container(
             
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(35)),
-            child: TextField(
-              style: TextStyle(height: 0.7),
+            child:  TextField(
+              style: TextStyle(
+                height: 0.5
+              ),
               decoration: InputDecoration(
-                
                 fillColor: Colors.white,
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(35))),
-                suffixIcon: Icon(
-                  Icons.search,
+                suffixIcon: IconButton(icon:
+                  Icon(Icons.search),
                   color: Theme.of(context).accentColor,
+                  onPressed: (){
+
+                    print ("Ive been pressed");
+
+                  },
                 ),
                 filled: true,
               ),
               onChanged: (value) {},
-            ),
-          ),
+            ),)
+          ,
           SizedBox(
-            height: 20.0,
+            height: 10.0,
           ),
           Expanded(
               child: Card(

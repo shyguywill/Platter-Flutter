@@ -24,14 +24,9 @@ class StartPage extends StatelessWidget {
           ),
         ),
         Container(
-            height: 570,
             child: Card(
               child:Column(children: <Widget>[
-                Expanded(
-                    child: FittedBox(
-                  fit: BoxFit.contain,
-                  child:  Column(
-                      children: <Widget>[
+                 
                         Container(
                           padding: EdgeInsets.all(10),
                           child: Text(
@@ -44,8 +39,8 @@ class StartPage extends StatelessWidget {
                         ),
                         Container(
                           padding: EdgeInsets.all(10),
-                          height: 200,
-                          width: 200,
+                          height: 300,
+                          width: 300,
                           child: FlatButton(
                             onPressed: () {
                               Navigator.pushNamed(context, "/search");
@@ -55,28 +50,25 @@ class StartPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                  ),
-                )
-              ],
-            )))
+            ))
       ],
     );
   }
 }
 
 Widget _buildStreak(int streak) {
-  print("Rendering");
+  
   var streakNumber = streak;
 
   Color _boxColor() {
-    print("Getting colour");
+    
     if (streakNumber >= 1) {
-      print("Streak greater than one");
+      
       streakNumber = (streakNumber - 1);
 
       return Colors.green;
     }
-    print("Streak less than one");
+   
     return Colors.white;
   }
 

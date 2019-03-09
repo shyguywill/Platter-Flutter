@@ -19,6 +19,10 @@ class SearchList extends StatelessWidget{
       length: 2,
       child: Scaffold(
         appBar: AppBar(
+          iconTheme: IconThemeData(
+            color: Theme.of(context).accentColor
+          ),
+          
           title: Text("platter",style: TextStyle(
             color: Theme.of(context).accentColor,
             fontFamily: "Futura"
