@@ -5,11 +5,11 @@ import './search_recipes.dart';
 
 class SearchList extends StatelessWidget{
 
-  final List _ingredients;
+  
   final Function _addIngredients;
   final Function _deleteIngredients;
 
-  SearchList(this._ingredients,this._addIngredients,this._deleteIngredients);
+  SearchList(this._addIngredients,this._deleteIngredients);
 
 
   @override
@@ -41,7 +41,7 @@ class SearchList extends StatelessWidget{
         ),
         body: TabBarView(
           children: <Widget>[
-            Pantry(_ingredients,_addIngredients,_deleteIngredients),
+            Pantry(_addIngredients,_deleteIngredients),
             SearchRecipes()
           ],
 

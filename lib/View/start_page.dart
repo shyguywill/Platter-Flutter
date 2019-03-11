@@ -17,8 +17,12 @@ class StartPage extends StatelessWidget {
               ),
               Container(
                 padding: EdgeInsets.only(bottom: 30),
-                child: _buildStreak(5),
+                child: _buildStreak(7),
               ),
+              Container(
+                child: _streakAward(7),
+              ),
+
               Text("You're a Platter Superstar!")
             ],
           ),
@@ -30,17 +34,16 @@ class StartPage extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.all(10),
                           child: Text(
-                            "Let's cook",
+                            "Let's cook!",
                             style: TextStyle(
-                                fontFamily: "Futura",
                                 fontSize: 35,
                                 color: Colors.pink[300]),
                           ),
                         ),
                         Container(
                           padding: EdgeInsets.all(10),
-                          height: 300,
-                          width: 300,
+                          height: 320,
+                          width: 330,
                           child: FlatButton(
                             onPressed: () {
                               Navigator.pushNamed(context, "/search");
@@ -54,7 +57,6 @@ class StartPage extends StatelessWidget {
       ],
     );
   }
-}
 
 Widget _buildStreak(int streak) {
   
@@ -154,4 +156,15 @@ Widget _buildStreak(int streak) {
       )
     ],
   );
+}
+
+Widget _streakAward(int streak){
+
+  if (streak >= 7){
+    return Icon(Icons.star,color: Colors.yellow,);
+  }
+  return SizedBox();
+
+}
+
 }

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import '../secrets.dart';
 import '../View/recipe_list.dart';
+import 'dart:convert';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class IngredientTable extends StatefulWidget {
-  final List<Map> _ingredientlist;
   final Function deleteItem;
 
-  IngredientTable(this._ingredientlist, this.deleteItem);
+  IngredientTable(this.deleteItem);
 
   static List selectedItem;
 
@@ -17,21 +19,88 @@ class IngredientTable extends StatefulWidget {
 }
 
 class _IngredientTable extends State<IngredientTable> {
+  List _ingredientlist = [];
+  List<Map> ingredientMap = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    print("Init state built");
+
+    loadIngredients();
+  }
+
+  void loadIngredients() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    List pantryItems = prefs.getStringList("Pantry");
+
+    if (pantryItems != null) {
+      //_ingredientlist = pantryItems;
+
+      List<Map> newItems = [];
+
+      for (var item in pantryItems) {
+        newItems.add(json.decode(item));
+      }
+
+      setState(() {
+        ingredientMap = newItems;
+      });
+    }
+  }
+
+  void loadAgain() async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    List pantryItems = prefs.getStringList("Pantry");
+
+    if (pantryItems != null) {
+      //_ingredientlist = pantryItems;
+
+      List<Map> newItems = [];
+
+      for (var item in pantryItems) {
+        newItems.add(json.decode(item));
+      }
+
+      print("Loading again");
+
+      
+      ingredientMap = newItems;
+      
+    }
+  }
+
+  void updateIngredients(item) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    await prefs.setStringList("Pantry", item);
+    loadIngredients();
+  }
+
   @override
   Widget build(BuildContext context) {
     IngredientTable.selectedItem = [];
     List ingredientArray = [];
 
-    for (var i in widget._ingredientlist) {
+    
+
+    for (var i in ingredientMap) {
       //Create List of selected ingredients
       if (i["Selected"] == true) {
         ingredientArray.add(i["Ingredient"]);
 
         IngredientTable.selectedItem = ingredientArray;
 
-        print(ingredientArray);
+        print("This is $ingredientArray");
       }
     }
+
+    
 
     return Column(
       children: <Widget>[
@@ -56,17 +125,23 @@ class _IngredientTable extends State<IngredientTable> {
                 ),
                 leading: Checkbox(
                   activeColor: Colors.green[200],
-                  value: widget._ingredientlist[row]["Selected"],
+                  value: ingredientMap[row]["Selected"],
                   onChanged: (bool value) {
+                    ingredientMap[row]["Selected"] = value;
+
                     setState(() {
-                      widget._ingredientlist[row]["Selected"] = value;
+                      List<String> newItem = [];
+                      for (var item in ingredientMap) {
+                        newItem.add(json.encode(item));
+                      }
+                      updateIngredients(newItem);
                     });
                   },
                 ),
-                title: Text(widget._ingredientlist[row]["Ingredient"]),
+                title: Text(ingredientMap[row]["Ingredient"]),
               );
             },
-            itemCount: widget._ingredientlist.length,
+            itemCount: ingredientMap.length,
           )),
         ),
         Container(

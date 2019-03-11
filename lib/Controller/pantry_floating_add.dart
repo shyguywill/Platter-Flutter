@@ -26,7 +26,7 @@ class _AddItems extends State<AddItems>{
     return FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          String newIngredient;
+          String newIngredient ;
           showDialog(
               context: context,
               builder: (context) {
@@ -56,6 +56,7 @@ class _AddItems extends State<AddItems>{
                           if (newIngredient.isNotEmpty) {
                             widget._addItem(newIngredient);
                             Navigator.pop(context);
+                            
                           }
                         });
                       },

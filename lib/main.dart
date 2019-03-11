@@ -1,62 +1,77 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import './home.dart';
 import "./View/list_and_search.dart";
 
 
 
-void main() {
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]) //Lock orientation to portrait
-    .then((_) {
-      runApp(new MyApp());
-    });
+void main(){
+  SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.portraitUp]) //Lock orientation to portrait
+      .then((_) {
+    runApp(new MyApp());
+  });
 }
 
-
-class MyApp extends StatefulWidget{
-
-@override
+class MyApp extends StatefulWidget {
+  @override
   State<StatefulWidget> createState() {
-    
     return _MyApp();
   }
-
 }
 
-class _MyApp extends State<MyApp>{
+class _MyApp extends State<MyApp> {
+  
+  void addIngredient(String item) async{
 
-   List<Map<String, Object>> pantryIngredients = [
-    {"Ingredient": "Rice", "Selected": false},
-    {"Ingredient": "Eggs", "Selected": false},
-    {"Ingredient": "Chicken", "Selected": true}
-  ];
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-   void addIngredient(String item){
+    List<String> pantryItems = prefs.getStringList("Pantry") ?? [];
 
-     Map<String, Object> newItem = {"Ingredient": item, "Selected": false};
-     pantryIngredients.add(newItem);
-   }
+    Map ingredients = {"Ingredient": item, "Selected": false};
 
-   void deleteIngredient(int index){
-     pantryIngredients.removeAt(index);
-   }
+    var newItem =json.encode(ingredients);
 
+    pantryItems.add(newItem);
 
-@override
-  Widget build(BuildContext context) {
+    await prefs.setStringList("Pantry", pantryItems);
+
     
+
+    print (pantryItems);
+
+  }
+
+  void deleteIngredient(int index) async {
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    List<String> pantryItems = prefs.getStringList("Pantry") ?? [];
+
+    pantryItems.removeAt(index);
+
+    await prefs.setStringList("Pantry", pantryItems);
+
+    
+
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
+        fontFamily: "Futura",
         primaryColor: Colors.white,
         accentColor: Colors.indigo[900],
-      ), 
+      ),
       routes: {
-        "/":(context) => Home(),
-        "/search":(context) => SearchList(pantryIngredients,addIngredient,deleteIngredient)
+        "/": (context) => Home(),
+        "/search": (context) =>
+            SearchList(addIngredient, deleteIngredient)
       },
-
     );
   }
 }
