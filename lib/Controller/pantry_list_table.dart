@@ -33,10 +33,6 @@ class _IngredientTable extends State<IngredientTable> {
     widget.loadIngredients();
   }
 
-
-
-
-
   void updateIngredients(item) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 

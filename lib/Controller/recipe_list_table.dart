@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:progress_hud/progress_hud.dart';
 
+import '../View/recipe_ingredients.dart';
+
 class RecipeTable extends StatefulWidget {
   final String _finalURL;
 
@@ -72,19 +74,28 @@ class _RecipeTable extends State<RecipeTable> {
                 child: Stack(
                   fit: StackFit.expand,
                   children: <Widget>[
+                    
                     Container(
                         child: ListTile(
                           onTap: () {
-                            List<Map> details = [
-                              {"title": data[row]["recipe"]["label"]},
-                              {"image": data[row]["recipe"]["image"]},
-                              {
-                                "ingredients": data[row]["recipe"]
-                                    ["ingredientLines"]
-                              }
+                            List details = [
+                              data[row]["recipe"]["label"],
+                              data[row]["recipe"]["image"],
+                              data[row]["recipe"]["source"],
+                              data[row]["recipe"]["url"],
                             ];
+                            List ingredients =
+                                data[row]["recipe"]["ingredientLines"];
+
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        RecipeIngredeints(
+                                            details, ingredients)));
 
                             print(details);
+                            //print(ingredients);
                           },
                         ),
                         decoration: BoxDecoration(
@@ -107,7 +118,6 @@ class _RecipeTable extends State<RecipeTable> {
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         style: TextStyle(
-                         
                           color: Colors.white,
                           fontSize: 20,
                           fontWeight: FontWeight.w400,

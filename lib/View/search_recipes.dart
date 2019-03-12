@@ -10,12 +10,8 @@ class SearchRecipes extends StatelessWidget {
         child: Column(children: <Widget>[
           
           Container(
-            
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(35)),
             child:  TextField(
-              style: TextStyle(
-                height: 0.5
-              ),
               decoration: InputDecoration(
                 fillColor: Colors.white,
                 border: OutlineInputBorder(

@@ -84,6 +84,7 @@ class _MyApp extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false, //remove debug banner
       theme: ThemeData(
         fontFamily: "Futura",
         primaryColor: Colors.white,
