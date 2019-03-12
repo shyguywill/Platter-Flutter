@@ -24,6 +24,28 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyApp extends State<MyApp> {
+
+    List<Map> ingredientMap = [];
+
+    void loadIngredients() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    List pantryItems = prefs.getStringList("Pantry");
+
+    if (pantryItems != null) {
+     
+
+      List<Map> newItems = [];
+
+      for (var item in pantryItems) {
+        newItems.add(json.decode(item));
+      }
+
+      setState(() {
+        ingredientMap = newItems;
+      });
+    }
+  }
   
   void addIngredient(String item) async{
 
@@ -70,7 +92,7 @@ class _MyApp extends State<MyApp> {
       routes: {
         "/": (context) => Home(),
         "/search": (context) =>
-            SearchList(addIngredient, deleteIngredient)
+            SearchList(addIngredient, deleteIngredient,loadIngredients,ingredientMap)
       },
     );
   }

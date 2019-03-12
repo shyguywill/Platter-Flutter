@@ -6,9 +6,10 @@ import 'package:flutter/material.dart';
 class AddItems extends StatefulWidget{
 
   final Function _addItem;
+  final Function _loadItems;
 
 
-  AddItems(this._addItem);
+  AddItems(this._addItem,this._loadItems);
 
   @override
   State<StatefulWidget> createState() {
@@ -33,6 +34,9 @@ class _AddItems extends State<AddItems>{
                 return AlertDialog(
                   title: Text("Add an item to your Pantry"),
                   content: TextField(
+                    autocorrect: true,
+                    textInputAction: TextInputAction.done,
+                    textCapitalization: TextCapitalization.sentences,
                     onChanged: (item) {
                       newIngredient = item;
                     },
@@ -55,8 +59,8 @@ class _AddItems extends State<AddItems>{
                         setState(() {
                           if (newIngredient.isNotEmpty) {
                             widget._addItem(newIngredient);
+                            widget._loadItems();
                             Navigator.pop(context);
-                            
                           }
                         });
                       },

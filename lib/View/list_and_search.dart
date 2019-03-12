@@ -8,8 +8,10 @@ class SearchList extends StatelessWidget{
   
   final Function _addIngredients;
   final Function _deleteIngredients;
+  final Function _load;
+  final List<Map> _ingredients;
 
-  SearchList(this._addIngredients,this._deleteIngredients);
+  SearchList(this._addIngredients,this._deleteIngredients,this._load,this._ingredients);
 
 
   @override
@@ -41,7 +43,7 @@ class SearchList extends StatelessWidget{
         ),
         body: TabBarView(
           children: <Widget>[
-            Pantry(_addIngredients,_deleteIngredients),
+            Pantry(_addIngredients,_deleteIngredients,_load,_ingredients),
             SearchRecipes()
           ],
 
