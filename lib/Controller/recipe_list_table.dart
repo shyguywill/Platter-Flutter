@@ -19,12 +19,9 @@ class RecipeTable extends StatefulWidget {
 }
 
 class _RecipeTable extends State<RecipeTable> {
-  
   ProgressHUD _progressHUD;
   List data;
   String finalUrl;
-
-
 
   @override
   void initState() {
@@ -42,10 +39,10 @@ class _RecipeTable extends State<RecipeTable> {
       containerColor: Colors.green,
       borderRadius: 5.0,
       //text: 'Finding tasty meals',
-      
     );
   }
-   int difference(List ingredientList) {
+
+  String difference(List ingredientList) {
     var listCount = ingredientList.length;
     String stringedList = ingredientList.join(" ");
 
@@ -61,7 +58,11 @@ class _RecipeTable extends State<RecipeTable> {
       listCount = 0;
     }
 
-    return listCount;
+    if (listCount == 1){
+      return "1 ingredient needed";
+    }
+
+    return "$listCount ingredients needed";
   }
 
   void getData() async {
@@ -75,10 +76,6 @@ class _RecipeTable extends State<RecipeTable> {
       print("Setting state");
       var resBody = json.decode(res.body);
       data = resBody["hits"];
-
-     
-
-
       print("This is data lenght ${data.length}");
       if (data.length < 3) {
         print("else");
@@ -112,16 +109,21 @@ class _RecipeTable extends State<RecipeTable> {
         body: Stack(
           children: <Widget>[
             _progressHUD,
-            Align(alignment: Alignment.bottomCenter, child:Text("Finding something tasty"))
+            Align(
+                alignment: Alignment.bottomCenter,
+                child: Text("Finding something tasty"))
           ],
         ),
       );
     }
 
     return ListView.builder(
-      
       itemCount: data.length,
       itemBuilder: (BuildContext context, int row) {
+
+        double calories = (data[row]["recipe"]["calories"])/(data[row]["recipe"]["yield"]);
+        int calorieCount = calories.toInt();
+
         print("building list");
 
         return Container(
@@ -178,7 +180,7 @@ class _RecipeTable extends State<RecipeTable> {
               ),
               Align(
                 alignment: Alignment.bottomRight,
-                child: Text("Total Calories: 250",
+                child: Text("Calories:$calorieCount",
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 15,
@@ -188,7 +190,7 @@ class _RecipeTable extends State<RecipeTable> {
               Align(
                   alignment: Alignment.bottomLeft,
                   child: Text(
-                    "${difference(data[row]["recipe"]["ingredientLines"])}",
+                    difference(data[row]["recipe"]["ingredientLines"]),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15,

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import './meal_page.dart';
 import 'package:stretchy_header/stretchy_header.dart';
 
-
-
 class RecipeIngredeints extends StatelessWidget {
   final List _ingredients;
   final List _pageDetails;
@@ -12,7 +10,7 @@ class RecipeIngredeints extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+    
     return SafeArea(
       top: false,
       child: Scaffold(
@@ -25,55 +23,53 @@ class RecipeIngredeints extends StatelessWidget {
         body: Stack(
           children: <Widget>[
             StretchyHeader(
-              
               blurContent: false,
-          headerHeight: 150.0,
-          header: Image.network(
-            _pageDetails[1],
-            fit: BoxFit.cover,
-          ),
-          body: ListView.builder(
-            itemCount: (_ingredients.length),
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              return ListTile(
-              title: Text(
-                _ingredients[(index)],
-                maxLines: 1,
+              headerHeight: 150.0,
+              header: Image.network(
+                _pageDetails[1],
+                fit: BoxFit.cover,
               ),
-            );
-            },
-          ),
-        ),
-        Align(
-          alignment: Alignment.topCenter,
-          child: Container(
-            padding: EdgeInsets.only(top: 25),
-            height: 75,
-            width: 200,
-            
-            child:RawMaterialButton(
-            
+              body: ListView.builder(
+                itemCount: (_ingredients.length),
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(
+                      _ingredients[(index)],
+                      maxLines: 1,
+                    ),
+                  );
+                },
+              ),
+            ),
+            Align(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  padding: EdgeInsets.only(top: 25),
+                  height: 75,
+                  width: 200,
+                  child: RawMaterialButton(
                       fillColor: Colors.pinkAccent,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0)),
                       elevation: 5.0,
                       child: Text(
-                        
                         "Go to recipe on ${_pageDetails[2]}",
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white),
                         maxLines: 2,
                       ),
                       onPressed: () {
-
-                        Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=> MealPage(_pageDetails[3])));
-
-                        
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    MealPage(_pageDetails[3])));
                       }),
-        ))
+                ))
           ],
         ),
       ),
     );
-  }}
+  }
+}
