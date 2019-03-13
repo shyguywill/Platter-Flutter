@@ -12,7 +12,7 @@ class StartPage extends StatelessWidget {
               Center(
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
-                  child: Text("Your Streak"),
+                  child: Text("8 : Caurrent Platter Streak"),
                 ),
               ),
               Container(

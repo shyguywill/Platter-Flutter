@@ -19,7 +19,7 @@ class RecipeTable extends StatefulWidget {
 
 class _RecipeTable extends State<RecipeTable> {
   ProgressHUD _progressHUD;
-  List data = [];
+  List data;
   String finalUrl;
 
   List<Map> recipeDetails;
@@ -39,7 +39,8 @@ class _RecipeTable extends State<RecipeTable> {
       color: Colors.white,
       containerColor: Colors.green,
       borderRadius: 5.0,
-      text: 'Loading...',
+      //text: 'Finding tasty meals',
+      
     );
   }
 
@@ -54,100 +55,127 @@ class _RecipeTable extends State<RecipeTable> {
       print("Setting state");
       var resBody = json.decode(res.body);
       data = resBody["hits"];
+      print("This is data lenght ${data.length}");
+      if (data.length < 3) {
+        print("else");
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text("Uh oh"),
+                content: Text(
+                    "Please try a different combination of, or less, ingredients"),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("Got it"),
+                    onPressed: () {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    },
+                  )
+                ],
+              );
+            });
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return data.isEmpty
-        ? Scaffold(
-            body: Stack(
-              children: <Widget>[_progressHUD],
-            ),
-          )
-        : ListView.builder(
-            itemCount: data.length,
-            itemBuilder: (BuildContext context, int row) {
-              return Container(
-                height: 150,
-                margin: EdgeInsets.all(5),
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: <Widget>[
-                    
-                    Container(
-                        child: ListTile(
-                          onTap: () {
-                            List details = [
-                              data[row]["recipe"]["label"],
-                              data[row]["recipe"]["image"],
-                              data[row]["recipe"]["source"],
-                              data[row]["recipe"]["url"],
-                            ];
-                            List ingredients =
-                                data[row]["recipe"]["ingredientLines"];
+    if (data == null) {
+      print("if");
+      return Scaffold(
+        body: Stack(
+          children: <Widget>[
+            _progressHUD,
+            Align(alignment: Alignment.bottomCenter, child:Text("Finding something tasty"))
+          ],
+        ),
+      );
+    }
 
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (BuildContext context) =>
-                                        RecipeIngredeints(
-                                            details, ingredients)));
+    return ListView.builder(
+      
+      itemCount: data.length,
+      itemBuilder: (BuildContext context, int row) {
+        print("building list");
 
-                            print(details);
-                            //print(ingredients);
-                          },
-                        ),
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                              colorFilter: ColorFilter.mode(
-                                  Colors.black.withOpacity(0.3),
-                                  BlendMode
-                                      .darken), //Assign image asvdecoration, allowing for cropping
-                              image: NetworkImage(
-                                data[row]["recipe"]["image"],
-                              ),
-                              fit: BoxFit.cover,
-                            ),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10)))),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Text(
+        return Container(
+          height: 150,
+          margin: EdgeInsets.all(5),
+          child: Stack(
+            fit: StackFit.expand,
+            children: <Widget>[
+              Container(
+                  child: ListTile(
+                    onTap: () {
+                      List details = [
                         data[row]["recipe"]["label"],
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w400,
+                        data[row]["recipe"]["image"],
+                        data[row]["recipe"]["source"],
+                        data[row]["recipe"]["url"],
+                      ];
+                      List ingredients = data[row]["recipe"]["ingredientLines"];
+
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (BuildContext context) =>
+                                  RecipeIngredeints(details, ingredients)));
+
+                      //print(details);
+                      //print(ingredients);
+                    },
+                  ),
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                        colorFilter: ColorFilter.mode(
+                            Colors.black.withOpacity(0.3),
+                            BlendMode
+                                .darken), //Assign image asvdecoration, allowing for cropping
+                        image: NetworkImage(
+                          data[row]["recipe"]["image"],
                         ),
+                        fit: BoxFit.cover,
                       ),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomRight,
-                      child: Text("Total Calories: 250",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15,
-                              fontFamily: "Futura",
-                              fontWeight: FontWeight.w400)),
-                    ),
-                    Align(
-                        alignment: Alignment.bottomLeft,
-                        child: Text(
-                          "1 ingredient remaining",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontFamily: "Futura",
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ))
-                  ],
+                      borderRadius: BorderRadius.all(Radius.circular(10)))),
+              Align(
+                alignment: Alignment.topCenter,
+                child: Text(
+                  data[row]["recipe"]["label"],
+                  textAlign: TextAlign.center,
+                  maxLines: 2,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
-              );
-            },
-          );
+              ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: Text("Total Calories: 250",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 15,
+                        fontFamily: "Futura",
+                        fontWeight: FontWeight.w400)),
+              ),
+              Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text(
+                    "1 ingredient remaining",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontFamily: "Futura",
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ))
+            ],
+          ),
+        );
+      },
+    );
   }
 }
