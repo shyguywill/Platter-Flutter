@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:progress_hud/progress_hud.dart';
 
 import '../View/recipe_ingredients.dart';
+import './pantry_list_table.dart';
 
 class RecipeTable extends StatefulWidget {
   final String _finalURL;
@@ -18,11 +19,12 @@ class RecipeTable extends StatefulWidget {
 }
 
 class _RecipeTable extends State<RecipeTable> {
+  
   ProgressHUD _progressHUD;
   List data;
   String finalUrl;
 
-  List<Map> recipeDetails;
+
 
   @override
   void initState() {
@@ -43,6 +45,24 @@ class _RecipeTable extends State<RecipeTable> {
       
     );
   }
+   int difference(List ingredientList) {
+    var listCount = ingredientList.length;
+    String stringedList = ingredientList.join(" ");
+
+    var parameters = IngredientTable.selectedItem;
+
+    for (String item in parameters) {
+      if (stringedList.toLowerCase().contains(item.toLowerCase())) {
+        listCount -= 1;
+      }
+    }
+
+    if (listCount < 0) {
+      listCount = 0;
+    }
+
+    return listCount;
+  }
 
   void getData() async {
     //Network
@@ -55,6 +75,10 @@ class _RecipeTable extends State<RecipeTable> {
       print("Setting state");
       var resBody = json.decode(res.body);
       data = resBody["hits"];
+
+     
+
+
       print("This is data lenght ${data.length}");
       if (data.length < 3) {
         print("else");
@@ -164,7 +188,7 @@ class _RecipeTable extends State<RecipeTable> {
               Align(
                   alignment: Alignment.bottomLeft,
                   child: Text(
-                    "1 ingredient remaining",
+                    "${difference(data[row]["recipe"]["ingredientLines"])}",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15,

@@ -4,13 +4,14 @@ import '../View/recipe_list.dart';
 import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:connectivity/connectivity.dart';
 
 class IngredientTable extends StatefulWidget {
   final Function deleteItem;
   final Function loadIngredients;
   final List<Map> ingredientMap;
 
-  IngredientTable(this.deleteItem,this.loadIngredients,this.ingredientMap);
+  IngredientTable(this.deleteItem, this.loadIngredients, this.ingredientMap);
 
   static List selectedItem;
 
@@ -21,11 +22,8 @@ class IngredientTable extends StatefulWidget {
 }
 
 class _IngredientTable extends State<IngredientTable> {
- 
-  
   @override
   void initState() {
-    
     super.initState();
 
     print("Init state built");
@@ -45,8 +43,6 @@ class _IngredientTable extends State<IngredientTable> {
     IngredientTable.selectedItem = [];
     List ingredientArray = [];
 
-    
-
     for (var i in widget.ingredientMap) {
       //Create List of selected ingredients
       if (i["Selected"] == true) {
@@ -57,8 +53,6 @@ class _IngredientTable extends State<IngredientTable> {
         print("This is $ingredientArray");
       }
     }
-
-    
 
     return Column(
       children: <Widget>[
@@ -116,21 +110,49 @@ class _IngredientTable extends State<IngredientTable> {
                 "Platter Me",
                 style: TextStyle(color: Colors.white),
               ),
-              onPressed: () {
-                if (IngredientTable.selectedItem != null) {
-                  var items = IngredientTable.selectedItem
-                      .join(",")
-                      .replaceAll(" ", "%20");
+              onPressed: () async {
+                var connectivityResult =
+                    await (Connectivity().checkConnectivity());
+                if (connectivityResult != ConnectivityResult.none) {
+                  // I am connected to a network.
 
-                  var url =
-                      "${EdmAPI.baseURL + items}&app_id=${EdmAPI.appID}&app_key=${EdmAPI.appKey}&from=0&to=100";
+                  if (IngredientTable.selectedItem != null) {
+                    var items = IngredientTable.selectedItem
+                        .join(",")
+                        .replaceAll(" ", "%20");
 
-                  print(url);
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => RecipePage(url),
-                      ));
+                    var url =
+                        "${EdmAPI.baseURL + items}&app_id=${EdmAPI.appID}&app_key=${EdmAPI.appKey}&from=0&to=100";
+
+                    print(url);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) => RecipePage(url),
+                        ));
+                  }
+                }else{
+                  showDialog(
+                    context: context,
+                    builder: (context){
+
+                      return AlertDialog(
+
+                        title: Text("Uh oh, you are not connected to the internet",textAlign: TextAlign.center,),
+                        content: Icon(Icons.signal_wifi_off),
+                        actions: <Widget>[
+                          
+                          SimpleDialogOption(
+                            child: Text("Got it"),
+                            onPressed: (){
+                              Navigator.pop(context);
+                            },
+                          )
+                        ],
+
+                      );
+                    }
+                  );
                 }
               }),
         )
