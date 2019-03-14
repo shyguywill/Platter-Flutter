@@ -5,7 +5,9 @@ import 'package:http/http.dart' as http;
 import 'package:progress_hud/progress_hud.dart';
 
 import '../View/recipe_ingredients.dart';
-import './pantry_list_table.dart';
+import '../Model/sort_list.dart';
+import '../Model/ingredients.dart';
+
 
 class RecipeTable extends StatefulWidget {
   final String _finalURL;
@@ -22,6 +24,7 @@ class _RecipeTable extends State<RecipeTable> {
   ProgressHUD _progressHUD;
   List data;
   String finalUrl;
+  List<Recipes> ingredientArray = [];
 
   @override
   void initState() {
@@ -42,27 +45,12 @@ class _RecipeTable extends State<RecipeTable> {
     );
   }
 
-  String difference(List ingredientList) {
-    var listCount = ingredientList.length;
-    String stringedList = ingredientList.join(" ");
-
-    var parameters = IngredientTable.selectedItem;
-
-    for (String item in parameters) {
-      if (stringedList.toLowerCase().contains(item.toLowerCase())) {
-        listCount -= 1;
-      }
-    }
-
-    if (listCount < 0) {
-      listCount = 0;
-    }
-
-    if (listCount == 1){
+  String ingredientLabel(int number) {
+    if (number == 1) {
       return "1 ingredient needed";
     }
 
-    return "$listCount ingredients needed";
+    return "$number ingredients needed";
   }
 
   void getData() async {
@@ -76,7 +64,14 @@ class _RecipeTable extends State<RecipeTable> {
       print("Setting state");
       var resBody = json.decode(res.body);
       data = resBody["hits"];
+
+      collectItems();
+
+      ingredientArray.sort((a, b) =>
+          a.ingredients.difference().compareTo(b.ingredients.difference()));
+
       print("This is data lenght ${data.length}");
+
       if (data.length < 3) {
         print("else");
         showDialog(
@@ -120,9 +115,8 @@ class _RecipeTable extends State<RecipeTable> {
     return ListView.builder(
       itemCount: data.length,
       itemBuilder: (BuildContext context, int row) {
-
-        double calories = (data[row]["recipe"]["calories"])/(data[row]["recipe"]["yield"]);
-        int calorieCount = calories.toInt();
+        
+        int calorieCount = ingredientArray[row].calories; 
 
         print("building list");
 
@@ -136,12 +130,12 @@ class _RecipeTable extends State<RecipeTable> {
                   child: ListTile(
                     onTap: () {
                       List details = [
-                        data[row]["recipe"]["label"],
-                        data[row]["recipe"]["image"],
-                        data[row]["recipe"]["source"],
-                        data[row]["recipe"]["url"],
+                        ingredientArray[row].label,
+                        ingredientArray[row].image,
+                        ingredientArray[row].source,
+                        ingredientArray[row].url,
                       ];
-                      List ingredients = data[row]["recipe"]["ingredientLines"];
+                      List ingredients = ingredientArray[row].ingredients;
 
                       Navigator.push(
                           context,
@@ -160,7 +154,7 @@ class _RecipeTable extends State<RecipeTable> {
                             BlendMode
                                 .darken), //Assign image asvdecoration, allowing for cropping
                         image: NetworkImage(
-                          data[row]["recipe"]["image"],
+                          ingredientArray[row].image,
                         ),
                         fit: BoxFit.cover,
                       ),
@@ -168,7 +162,7 @@ class _RecipeTable extends State<RecipeTable> {
               Align(
                 alignment: Alignment.topCenter,
                 child: Text(
-                  data[row]["recipe"]["label"],
+                  ingredientArray[row].label,
                   textAlign: TextAlign.center,
                   maxLines: 2,
                   style: TextStyle(
@@ -190,7 +184,8 @@ class _RecipeTable extends State<RecipeTable> {
               Align(
                   alignment: Alignment.bottomLeft,
                   child: Text(
-                    difference(data[row]["recipe"]["ingredientLines"]),
+                    ingredientLabel(
+                        ingredientArray[row].ingredients.difference()),
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15,
@@ -203,5 +198,39 @@ class _RecipeTable extends State<RecipeTable> {
         );
       },
     );
+  }
+
+  void collectItems() {
+    SortList<Recipes> recipeHold = SortList();
+
+    print("got the recipe data");
+
+    for (var meal = 0; meal < data.length; meal++) {
+      var recipes = Recipes();
+
+      var food = data[meal]["recipe"];
+
+      recipes.label = food["label"];
+      recipes.image = food["image"];
+      recipes.source = food["source"];
+      recipes.url = food["url"];
+
+      double amount = food["yield"];
+      double totalCalories = food["calories"];
+
+      recipes.calories = (totalCalories ~/ amount);
+
+      List recipeLists = food["ingredientLines"];
+
+      for (var item in recipeLists) {
+        recipes.ingredients.add(item);
+      }
+
+      recipeHold.add(recipes);
+    }
+
+    ingredientArray = recipeHold;
+
+    print("got everything");
   }
 }
