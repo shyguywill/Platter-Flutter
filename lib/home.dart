@@ -7,9 +7,16 @@ import './View/auth.dart';
 
 class Home extends StatelessWidget {
 
-  
+  final List myMeals;
 
-  
+  final Function load;
+
+  final Function delete;
+
+
+
+
+  Home(this.myMeals,this.load, this.delete);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +50,7 @@ class Home extends StatelessWidget {
           ),
         ),
         body: TabBarView(
-          children: <Widget>[StartPage(), MyRecipes(), Auth()],
+          children: <Widget>[StartPage(), MyRecipes(myMeals,load, delete), Auth()],
         ),
       ),
     );

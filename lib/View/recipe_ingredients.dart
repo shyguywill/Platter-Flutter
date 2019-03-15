@@ -60,11 +60,13 @@ class RecipeIngredeints extends StatelessWidget {
                         maxLines: 2,
                       ),
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (BuildContext context) =>
-                                    MealPage(_pageDetails[3])));
+
+
+                        print("*mealpage*${_pageDetails[3]}*${_pageDetails[1]}*${_pageDetails[0]}");
+
+
+
+                        Navigator.pushNamed(context, "*mealpage*${_pageDetails[3]}*${_pageDetails[1]}*${_pageDetails[0]}");
                       }),
                 ))
           ],

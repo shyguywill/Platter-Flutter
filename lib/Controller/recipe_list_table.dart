@@ -143,7 +143,7 @@ class _RecipeTable extends State<RecipeTable> {
                               builder: (BuildContext context) =>
                                   RecipeIngredeints(details, ingredients)));
 
-                      //print(details);
+                      print(details);
                       //print(ingredients);
                     },
                   ),
