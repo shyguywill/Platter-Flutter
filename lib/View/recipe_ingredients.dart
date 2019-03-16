@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './meal_page.dart';
+
 import 'package:stretchy_header/stretchy_header.dart';
 
 class RecipeIngredeints extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class SearchRecipes extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
+   
     return ListView(children: <Widget>[ Container(
       height: 550,
         padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),

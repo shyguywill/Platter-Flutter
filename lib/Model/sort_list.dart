@@ -8,7 +8,7 @@ class SortList<E> extends ListBase<E> {
 
   int get length => innerList.length;
 
-  void set length(int length) {
+  set length(int length) {
     innerList.length = length;
   }
 

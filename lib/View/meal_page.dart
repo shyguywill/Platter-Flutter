@@ -6,14 +6,16 @@ class MealPage extends StatefulWidget {
   final String mealURL;
   final String photo;
   final String label;
+  final String destination;
 
   final Function saveMeal;
 
-  MealPage(this.mealURL, this.photo, this.label, this.saveMeal);
+  MealPage(this.mealURL,
+      {this.photo, this.label, this.saveMeal, this.destination});
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
+    
     return _Mealpage();
   }
 }
@@ -23,26 +25,39 @@ class _Mealpage extends State<MealPage> {
   bool _buttonPressed = false;
 
   save() {
-
     Map meal = {
-        "URL": widget.mealURL,
-        "Photo": widget.photo,
-        "Label": widget.label
-      };
+      "URL": widget.mealURL,
+      "Photo": widget.photo,
+      "Label": widget.label
+    };
 
-      widget.saveMeal(meal);
-
+    widget.saveMeal(meal);
 
     setState(() {
-      _buttonPressed =true;
+      _buttonPressed = true;
     });
 
     print("Saved");
   }
 
+
+  @override
+  void initState() {
+   
+    super.initState();
+
+    if (widget.destination == "Store"){
+
+      _buttonPressed = true;
+
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+
     
+
 
     return WebviewScaffold(
       appBar: AppBar(
@@ -54,9 +69,13 @@ class _Mealpage extends State<MealPage> {
               _buttonPressed ? "Saved" : "Save Meal",
               style: TextStyle(color: Colors.greenAccent),
             ),
-            onPressed: _buttonPressed ? (){return null;} : (){
-              save();
-            },
+            onPressed: _buttonPressed
+                ? () {
+                    return null;
+                  }
+                : () {
+                    save();
+                  },
           )
         ],
         title: Text("Recipe"),

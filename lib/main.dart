@@ -23,6 +23,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyApp extends State<MyApp> {
+  
   List<Map> savedMealMap = [];
 
   List<Map> ingredientMap = [];
@@ -138,7 +139,7 @@ class _MyApp extends State<MyApp> {
         if (entry[1] == "mealpage") {
           return MaterialPageRoute(
               builder: (context) =>
-                  MealPage(entry[2], entry[3], entry[4], saveMeal));
+                  MealPage(entry[2],label: entry[4],photo: entry[3],saveMeal: saveMeal,));
         }
       },
     );

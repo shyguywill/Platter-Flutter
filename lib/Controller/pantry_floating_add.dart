@@ -8,7 +8,7 @@ class AddItems extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
+   
     return _AddItems();
   }
 }
@@ -35,6 +35,7 @@ class _AddItems extends State<AddItems> {
                   onSubmitted: (item) {
                     setState(() {
                       widget._addItem(item);
+                      widget._loadItems();
                       Navigator.pop(context);
                     });
                   },
