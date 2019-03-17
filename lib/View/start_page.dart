@@ -1,69 +1,17 @@
 import 'package:flutter/material.dart';
 import 'dart:core';
-import 'package:shared_preferences/shared_preferences.dart';
+
+
+class StartPage extends StatelessWidget {
+
+
+  final int streak;
+  final Function getStreak;
 
 
 
-class StartPage extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return _StartPage();
-  }
-}
-
-class _StartPage extends State<StartPage> {
-  
-
-  int streak = 0;
-
-  void displayStreak() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-    setState(() {
-      streak = prefs.getInt("Streak") ?? 0;
-    });
-  }
-
-  void streakCount() async {
-    SharedPreferences prefs1 = await SharedPreferences.getInstance();
-
-    String lastLaunch = prefs1.getString("Launches");
-
-    if (lastLaunch == null) {
-      lastLaunch = DateTime.now().toString();
-
-      await prefs1.setString("Launches", lastLaunch);
-    }
-
-    var time = DateTime.now();
-
-    if (time.difference(DateTime.parse(lastLaunch)).inSeconds > 5 &&
-        time.difference(DateTime.parse(lastLaunch)).inSeconds < (43200 * 4)) {
-      //43200
-      SharedPreferences pref = await SharedPreferences.getInstance();
-
-      int streak = pref.getInt("Streak") ?? 0;
-      streak++;
-
-      print(streak);
-
-      await pref.setInt("Streak", streak);
-
-      await prefs1.setString("Launches", DateTime.now().toString());
-    }
-    print(time.difference(DateTime.parse(lastLaunch)).inSeconds);
-
-    print(lastLaunch);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    streakCount();
-
-    displayStreak();
-
+  StartPage(this.streak,this.getStreak){
+    getStreak();
   }
 
   @override
@@ -121,7 +69,7 @@ class _StartPage extends State<StartPage> {
       ],
     );
   }
-}
+
 
 Widget _userEncouragement(int streak) {
   if (streak >= 7) {
@@ -255,4 +203,4 @@ Widget _streakAward(int streak) {
     );
   }
   return SizedBox();
-}
+}}

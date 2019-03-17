@@ -12,26 +12,34 @@ class MyRecipes extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    
+    // TODO: implement createState
     return _MyRecipes();
   }
 }
 
 class _MyRecipes extends State<MyRecipes> {
+
+
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
 
-    widget.loadMeals();
+    
+      widget.loadMeals();
+    
+    
   }
-
   @override
   Widget build(BuildContext context) {
     //print("These are ${widget.savedMeals}");
 
     return widget.savedMeals.isEmpty
         ? Center(
-            child: Text("All the recipes you love will appear right here", textAlign: TextAlign.center,),
+            child: Text(
+              "All the recipes you love will appear right here",
+              textAlign: TextAlign.center,
+            ),
           )
         : ListView.separated(
             separatorBuilder: (context, index) {
@@ -56,10 +64,11 @@ class _MyRecipes extends State<MyRecipes> {
                     trailing: IconButton(
                       icon: Icon(Icons.delete),
                       onPressed: () {
-                        setState(() {
-                          widget.deleteMeal(index);
+                        widget.deleteMeal(index);
+
+                        
                           widget.loadMeals();
-                        });
+                       
                       },
                     ),
                     title: Text(widget.savedMeals[index]["Label"]),

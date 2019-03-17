@@ -14,11 +14,12 @@ class Home extends StatelessWidget {
 
   final Function delete;
 
-  Home(this.myMeals, this.load, this.delete){
-    print ("Building home");
-  }
-  
+  final int userStreak;
 
+  final Function displayStreak;
+
+  Home(this.myMeals, this.load, this.delete,this.userStreak,this.displayStreak);
+   
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +51,7 @@ class Home extends StatelessWidget {
         ),
         body: TabBarView(
           children: <Widget>[
-            StartPage(),
+            StartPage(userStreak,displayStreak),
             MyRecipes(myMeals, load, delete),
             Auth()
           ],
@@ -60,22 +61,4 @@ class Home extends StatelessWidget {
   }
 }
 
-// Widget buildTabname(int tab) {
-//   String tabName;
 
-//   if (tab == 1) {
-//     tabName = "Home";
-//   }
-//   if (tab == 2) {
-//     tabName = "Find Recipes";
-//   }
-//   if (tab == 3) {
-//     tabName = "My Recipes";
-//   }
-
-//   return Text(tabName,
-//   style: TextStyle(
-//     color: Colors.indigo[900],
-
-//   ),);
-// }

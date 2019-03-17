@@ -23,7 +23,52 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyApp extends State<MyApp> {
-  
+  int streak = 0;
+
+  void displayStreak() async {
+    streakCount();
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    streak = prefs.getInt("Streak") ?? 0;
+  }
+
+  void streakCount() async {
+    SharedPreferences prefs1 = await SharedPreferences.getInstance();
+
+    String lastLaunch = prefs1.getString("Launches");
+
+    if (lastLaunch == null) {
+      lastLaunch = DateTime.now().toString();
+
+      await prefs1.setString("Launches", lastLaunch);
+    }
+
+    var time = DateTime.now();
+
+    if (time.difference(DateTime.parse(lastLaunch)).inSeconds > 5 &&
+        time.difference(DateTime.parse(lastLaunch)).inSeconds < (43200 * 4)) {
+      //43200
+      SharedPreferences pref = await SharedPreferences.getInstance();
+
+      int streak = pref.getInt("Streak") ?? 0;
+      streak++;
+
+      print(streak);
+
+      await pref.setInt("Streak", streak);
+
+      await prefs1.setString("Launches", DateTime.now().toString());
+    } else if (time.difference(DateTime.parse(lastLaunch)).inSeconds >
+        (43200 * 4)) {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+      await pref.setInt("Streak", 0);
+    }
+    print(time.difference(DateTime.parse(lastLaunch)).inSeconds);
+
+    print(lastLaunch);
+  }
+
   List<Map> savedMealMap = [];
 
   List<Map> ingredientMap = [];
@@ -66,7 +111,10 @@ class _MyApp extends State<MyApp> {
 
       setState(() {
         savedMealMap = newItems;
+        
       });
+        
+      
     }
   }
 
@@ -124,7 +172,8 @@ class _MyApp extends State<MyApp> {
         accentColor: Colors.indigo[900],
       ),
       routes: {
-        "/": (context) => Home(savedMealMap, loadMeals, deleteMeal),
+        "/": (context) =>
+            Home(savedMealMap, loadMeals, deleteMeal, streak, displayStreak),
         "/search": (context) => SearchList(
             addIngredient, deleteIngredient, loadIngredients, ingredientMap)
       },
@@ -138,8 +187,12 @@ class _MyApp extends State<MyApp> {
         }
         if (entry[1] == "mealpage") {
           return MaterialPageRoute(
-              builder: (context) =>
-                  MealPage(entry[2],label: entry[4],photo: entry[3],saveMeal: saveMeal,));
+              builder: (context) => MealPage(
+                    entry[2],
+                    label: entry[4],
+                    photo: entry[3],
+                    saveMeal: saveMeal,
+                  ));
         }
       },
     );

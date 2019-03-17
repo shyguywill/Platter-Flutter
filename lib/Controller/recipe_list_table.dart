@@ -72,7 +72,7 @@ class _RecipeTable extends State<RecipeTable> {
 
       print("This is data lenght ${data.length}");
 
-      if (data.length < 3) {
+      if (data.length < 1) {
         print("else");
         showDialog(
             context: context,
