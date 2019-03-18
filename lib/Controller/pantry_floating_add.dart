@@ -51,9 +51,11 @@ class _AddItems extends State<AddItems> {
                     child: Text("Add item"),
                     onPressed: () {
                       setState(() {
-                        if (newIngredient.isNotEmpty) {
+                        if (newIngredient !=null) {
                           widget._addItem(newIngredient);
                           widget._loadItems();
+                          Navigator.pop(context);
+                        }else{
                           Navigator.pop(context);
                         }
                       });

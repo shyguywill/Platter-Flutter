@@ -30,7 +30,13 @@ class _MyApp extends State<MyApp> {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    streak = prefs.getInt("Streak") ?? 0;
+  
+
+      streak = prefs.getInt("Streak") ?? 0;
+      
+  
+
+    
   }
 
   void streakCount() async {
@@ -47,24 +53,27 @@ class _MyApp extends State<MyApp> {
     var time = DateTime.now();
 
     if (time.difference(DateTime.parse(lastLaunch)).inSeconds > 5 &&
-        time.difference(DateTime.parse(lastLaunch)).inSeconds < (43200 * 4)) {
+        time.difference(DateTime.parse(lastLaunch)).inSeconds < (5 * 4)) {
       //43200
       SharedPreferences pref = await SharedPreferences.getInstance();
 
       int streak = pref.getInt("Streak") ?? 0;
       streak++;
 
-      print(streak);
+      print("This is your streak $streak");
 
       await pref.setInt("Streak", streak);
 
       await prefs1.setString("Launches", DateTime.now().toString());
     } else if (time.difference(DateTime.parse(lastLaunch)).inSeconds >
-        (43200 * 4)) {
+        (5 * 4)) {
+      print("out of time range");
+      await prefs1.setString("Launches", DateTime.now().toString());
       SharedPreferences pref = await SharedPreferences.getInstance();
       await pref.setInt("Streak", 0);
     }
-    print(time.difference(DateTime.parse(lastLaunch)).inSeconds);
+    print(
+        "This is the time differece:${time.difference(DateTime.parse(lastLaunch)).inSeconds}");
 
     print(lastLaunch);
   }
@@ -97,7 +106,7 @@ class _MyApp extends State<MyApp> {
     await prefs.setStringList("MyMeals", mealItems);
   }
 
-  void loadMeals() async {
+  void loadMeals({int location}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     List mealItems = prefs.getStringList("MyMeals");
@@ -109,12 +118,16 @@ class _MyApp extends State<MyApp> {
         newItems.add(json.decode(item));
       }
 
-      setState(() {
-        savedMealMap = newItems;
-        
-      });
-        
-      
+      switch (location) {
+        case 1:
+          setState(() {
+            savedMealMap = newItems;
+          });
+
+          break;
+        default:
+          savedMealMap = newItems;
+      }
     }
   }
 

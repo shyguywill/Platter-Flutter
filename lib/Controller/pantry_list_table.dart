@@ -66,12 +66,9 @@ class _IngredientTable extends State<IngredientTable> {
                 child: Container(
                     //height: 400,
 
-                    child: ListView.separated(
-                  separatorBuilder: (context, index) => Divider(
-                        color: Colors.black,
-                      ),
+                    child: ListView.builder(
                   itemBuilder: (BuildContext context, int row) {
-                    return ListTile(
+                    return Card(child: ListTile(
                       onTap: () {},
                       trailing: IconButton(
                         icon: Icon(Icons.delete),
@@ -98,7 +95,7 @@ class _IngredientTable extends State<IngredientTable> {
                         },
                       ),
                       title: Text(widget.ingredientMap[row]["Ingredient"]),
-                    );
+                    ));
                   },
                   itemCount: widget.ingredientMap.length,
                 )),

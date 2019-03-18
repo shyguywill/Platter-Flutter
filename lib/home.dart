@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 
 import "./View/start_page.dart";
-import "./View/my_recipes.dart";
-import './View/auth.dart';
-
-
-
 
 class Home extends StatelessWidget {
   final List myMeals;
@@ -18,47 +13,40 @@ class Home extends StatelessWidget {
 
   final Function displayStreak;
 
-  Home(this.myMeals, this.load, this.delete,this.userStreak,this.displayStreak);
-   
+  Home(this.myMeals, this.load, this.delete, this.userStreak,
+      this.displayStreak);
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        drawer: Drawer(),
-        appBar: AppBar(
-          iconTheme: IconThemeData(color: Theme.of(context).accentColor),
-          title: Text(
-            "platter",
-            style: TextStyle(
-                color: Theme.of(context).accentColor, fontFamily: "Futura"),
-          ),
-          bottom: TabBar(
-            indicatorColor: Colors.pinkAccent,
-            tabs: <Widget>[
-              Tab(
-                icon: Icon(Icons.home),
-              ),
-              Tab(
-                icon: Icon(Icons.fastfood),
-              ),
-              Tab(
-                icon: Icon(Icons.account_circle),
-              )
-            ],
-          ),
-        ),
-        body: TabBarView(
-          children: <Widget>[
-            StartPage(userStreak,displayStreak),
-            MyRecipes(myMeals, load, delete),
-            Auth()
-          ],
+    return Scaffold(
+      
+      drawer: Drawer(),
+      appBar: AppBar(
+        
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
+        title: Text(
+          "platter",
+          style: TextStyle(color: Theme.of(context).accentColor),
         ),
       ),
+      body: StartPage(userStreak, displayStreak, myMeals, load, delete),
+      floatingActionButton: Container(
+          width: 200.0,
+          height: 50.0,
+          child: RawMaterialButton(
+            child: Text(
+              "Let's cook !",
+              style: TextStyle(color: Colors.white),
+            ),
+            fillColor: Colors.greenAccent,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0)),
+            elevation: 5.0,
+            onPressed: () {
+              Navigator.pushNamed(context, "/search");
+            },
+          )),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
-
-

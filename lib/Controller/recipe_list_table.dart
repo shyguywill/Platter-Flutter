@@ -39,8 +39,8 @@ class _RecipeTable extends State<RecipeTable> {
     _progressHUD = new ProgressHUD(
       backgroundColor: Colors.black12,
       color: Colors.white,
-      containerColor: Colors.green,
-      borderRadius: 5.0,
+      containerColor: Colors.greenAccent,
+      borderRadius: 10.0,
       //text: 'Finding tasty meals',
     );
   }
@@ -106,7 +106,7 @@ class _RecipeTable extends State<RecipeTable> {
             _progressHUD,
             Align(
                 alignment: Alignment.bottomCenter,
-                child: Text("Finding something tasty"))
+                child: Text("Finding something tasty..."))
           ],
         ),
       );

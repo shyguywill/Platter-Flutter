@@ -1,206 +1,94 @@
 import 'package:flutter/material.dart';
 import 'dart:core';
 
+import '../Controller/home_widgets.dart';
+import './auth.dart';
+import "./my_recipes.dart";
 
-class StartPage extends StatelessWidget {
-
-
+class StartPage extends StatefulWidget {
   final int streak;
   final Function getStreak;
 
+  final List myMeals;
+  final Function load;
+  final Function delete;
 
+  StartPage(this.streak, this.getStreak, this.myMeals, this.load, this.delete);
 
-  StartPage(this.streak,this.getStreak){
-    getStreak();
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _StartPage();
   }
+}
+
+class _StartPage extends State<StartPage> {
+
+
+
+
+ 
+
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        SizedBox(
-          height: 10,
-        ),
-        Card(
-          child: Column(
-            children: <Widget>[
-              Center(
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                  child: _streakBanner(streak),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.only(bottom: 30),
-                child: _buildStreak(streak),
-              ),
-              Container(
-                child: _streakAward(streak),
-              ),
-              _userEncouragement(streak)
-            ],
-          ),
-        ),
-        Container(
-          height: 350,
-          child: Column(
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  "Let's cook!",
-                  style: TextStyle(fontSize: 35, color: Colors.pink[300]),
-                ),
-              ),
-              Flexible(
-                  fit: FlexFit.tight,
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    child: FlatButton(
-                      onPressed: () {
-                        Navigator.pushNamed(context, "/search");
-                      },
-                      child: Image.asset("assets/go.png"),
-                    ),
-                  )),
-            ],
-          ),
-        )
-      ],
-    );
-  }
 
+     widget.getStreak();
+    
 
-Widget _userEncouragement(int streak) {
-  if (streak >= 7) {
-    return Text("You're a Platter Superstar!");
-  }
+    widget.load();
 
-  return Text("Keep it going");
-}
-
-Widget _streakBanner(int streak) {
-  return Container(
-    height: 50,
-    child: Column(
-      children: <Widget>[
-        Text("Streak"),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+    return Container(
+      
+        margin: EdgeInsets.all(10),
+        child: ListView(
           children: <Widget>[
-            Text(streak.toString()),
-            Icon(
-              Icons.flash_on,
-              color: Colors.greenAccent,
+            Card(
+              
+              elevation: 15,
+              child: Column(
+                children: <Widget>[
+                  Center(
+                    child: Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+                      child: streakBanner(widget.streak),
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(bottom: 30),
+                    child: buildStreak(widget.streak),
+                  ),
+                  Container(
+                    child: streakAward(widget.streak),
+                  ),
+                  userEncouragement(widget.streak)
+                ],
+              ),
+            ),
+            Card(
+              elevation: 15,
+              child: ListTile(
+                leading: Icon(Icons.account_circle,color: Colors.pinkAccent,),
+                title: Text(
+                  "Log in to share your own recipes with other Platter Users",
+                  textAlign: TextAlign.center,
+                ),
+                trailing: IconButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => Auth()));
+                  },
+                  icon: Icon(Icons.arrow_forward_ios),
+                ),
+              ),
+            ),
+            Card(
+              elevation: 25,
+              child: Container(
+                  height: widget.myMeals.isNotEmpty ? (300 + (widget.myMeals.length.toDouble() * 10 ?? 0)) : 200,
+                  child: MyRecipes(widget.myMeals, widget.load, widget.delete)),
             )
           ],
-        )
-      ],
-    ),
-  );
-}
-
-Widget _buildStreak(int streak) {
-  Color _boxColor() {
-    if (streak >= 1) {
-      streak = (streak - 1);
-
-      return Colors.greenAccent;
-    }
-
-    return Colors.white;
+        ));
   }
-
-  return Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: <Widget>[
-      Container(
-        margin: EdgeInsets.all(5),
-        height: 5,
-        width: 25,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-              border: Border.all(width: 0.5, color: Colors.grey),
-              color: _boxColor(),
-              borderRadius: BorderRadius.circular(5)),
-        ),
-      ),
-      Container(
-        margin: EdgeInsets.all(5),
-        height: 5,
-        width: 25,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-              border: Border.all(width: 0.5, color: Colors.grey),
-              color: _boxColor(),
-              borderRadius: BorderRadius.circular(5)),
-        ),
-      ),
-      Container(
-        margin: EdgeInsets.all(5),
-        height: 5,
-        width: 25,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-              border: Border.all(width: 0.5, color: Colors.grey),
-              color: _boxColor(),
-              borderRadius: BorderRadius.circular(5)),
-        ),
-      ),
-      Container(
-        margin: EdgeInsets.all(5),
-        height: 5,
-        width: 25,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-              border: Border.all(width: 0.5, color: Colors.grey),
-              color: _boxColor(),
-              borderRadius: BorderRadius.circular(5)),
-        ),
-      ),
-      Container(
-        margin: EdgeInsets.all(5),
-        height: 5,
-        width: 25,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-              border: Border.all(width: 0.5, color: Colors.grey),
-              color: _boxColor(),
-              borderRadius: BorderRadius.circular(5)),
-        ),
-      ),
-      Container(
-        margin: EdgeInsets.all(5),
-        height: 5,
-        width: 25,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-              border: Border.all(width: 0.5, color: Colors.grey),
-              color: _boxColor(),
-              borderRadius: BorderRadius.circular(5)),
-        ),
-      ),
-      Container(
-        margin: EdgeInsets.all(5),
-        height: 5,
-        width: 25,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-              border: Border.all(width: 0.5, color: Colors.grey),
-              color: _boxColor(),
-              borderRadius: BorderRadius.circular(5)),
-        ),
-      )
-    ],
-  );
 }
-
-Widget _streakAward(int streak) {
-  if (streak >= 7) {
-    return Icon(
-      Icons.star,
-      color: Colors.yellow,
-    );
-  }
-  return SizedBox();
-}}

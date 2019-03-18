@@ -18,29 +18,30 @@ class MyRecipes extends StatefulWidget {
 }
 
 class _MyRecipes extends State<MyRecipes> {
-
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    
-      widget.loadMeals();
-    
-    
+    widget.loadMeals();
   }
+
   @override
   Widget build(BuildContext context) {
     //print("These are ${widget.savedMeals}");
 
     return widget.savedMeals.isEmpty
-        ? Center(
-            child: Text(
-              "All the recipes you love will appear right here",
-              textAlign: TextAlign.center,
-            ),
-          )
+        ? Container(
+            decoration: BoxDecoration(),
+            child: Center(
+              child: Text(
+                "All the recipes you ❤️ will appear right here",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    //fontWeight: FontWeight.bold
+                    ),
+              ),
+            ))
         : ListView.separated(
             separatorBuilder: (context, index) {
               return Divider(
@@ -64,11 +65,12 @@ class _MyRecipes extends State<MyRecipes> {
                     trailing: IconButton(
                       icon: Icon(Icons.delete),
                       onPressed: () {
+
                         widget.deleteMeal(index);
 
+                        widget.loadMeals(location:1);
+
                         
-                          widget.loadMeals();
-                       
                       },
                     ),
                     title: Text(widget.savedMeals[index]["Label"]),
