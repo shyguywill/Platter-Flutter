@@ -71,7 +71,7 @@ class _IngredientTable extends State<IngredientTable> {
                     return Card(child: ListTile(
                       onTap: () {},
                       trailing: IconButton(
-                        icon: Icon(Icons.delete),
+                        icon: Icon(Icons.delete,color: Colors.pinkAccent,),
                         onPressed: () {
                           setState(() {
                             widget.deleteItem(row);

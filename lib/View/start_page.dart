@@ -5,7 +5,7 @@ import '../Controller/home_widgets.dart';
 import './auth.dart';
 import "./my_recipes.dart";
 
-class StartPage extends StatefulWidget {
+class StartPage extends StatelessWidget {
   final int streak;
   final Function getStreak;
 
@@ -15,35 +15,26 @@ class StartPage extends StatefulWidget {
 
   StartPage(this.streak, this.getStreak, this.myMeals, this.load, this.delete);
 
-  State<StatefulWidget> createState() {
-    // TODO: implement createState
-    return _StartPage();
-  }
-}
-
-class _StartPage extends State<StartPage> {
-
-
-
-
  
-
-
   @override
   Widget build(BuildContext context) {
+    print("Start build");
 
-     widget.getStreak();
-    
+    load();
 
-    widget.load();
+    getStreak();
 
     return Container(
-      
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage("assets/logoNoBackground.png")
+        )
+      ),
         margin: EdgeInsets.all(10),
         child: ListView(
           children: <Widget>[
             Card(
-              
               elevation: 15,
               child: Column(
                 children: <Widget>[
@@ -51,24 +42,27 @@ class _StartPage extends State<StartPage> {
                     child: Container(
                       padding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                      child: streakBanner(widget.streak),
+                      child: streakBanner(streak),
                     ),
                   ),
                   Container(
                     padding: EdgeInsets.only(bottom: 30),
-                    child: buildStreak(widget.streak),
+                    child: buildStreak(streak),
                   ),
                   Container(
-                    child: streakAward(widget.streak),
+                    child: streakAward(streak),
                   ),
-                  userEncouragement(widget.streak)
+                  userEncouragement(streak)
                 ],
               ),
             ),
             Card(
               elevation: 15,
               child: ListTile(
-                leading: Icon(Icons.account_circle,color: Colors.pinkAccent,),
+                leading: Icon(
+                  Icons.account_circle,
+                  color: Colors.pinkAccent,
+                ),
                 title: Text(
                   "Log in to share your own recipes with other Platter Users",
                   textAlign: TextAlign.center,
@@ -85,8 +79,10 @@ class _StartPage extends State<StartPage> {
             Card(
               elevation: 25,
               child: Container(
-                  height: widget.myMeals.isNotEmpty ? (300 + (widget.myMeals.length.toDouble() * 10 ?? 0)) : 200,
-                  child: MyRecipes(widget.myMeals, widget.load, widget.delete)),
+                  height: myMeals.isNotEmpty
+                      ? (300 + (myMeals.length.toDouble() * 10 ?? 0))
+                      : 200,
+                  child: MyRecipes(myMeals, load, delete)),
             )
           ],
         ));

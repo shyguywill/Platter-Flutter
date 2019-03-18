@@ -63,12 +63,12 @@ class _MyRecipes extends State<MyRecipes> {
                                   )));
                     },
                     trailing: IconButton(
-                      icon: Icon(Icons.delete),
+                      icon: Icon(Icons.delete, color: Colors.pinkAccent,),
                       onPressed: () {
 
                         widget.deleteMeal(index);
 
-                        widget.loadMeals(location:1);
+                        widget.loadMeals(key: 1);
 
                         
                       },

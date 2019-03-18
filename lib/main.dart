@@ -30,13 +30,7 @@ class _MyApp extends State<MyApp> {
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  
-
-      streak = prefs.getInt("Streak") ?? 0;
-      
-  
-
-    
+    streak = prefs.getInt("Streak") ?? 0;
   }
 
   void streakCount() async {
@@ -106,27 +100,26 @@ class _MyApp extends State<MyApp> {
     await prefs.setStringList("MyMeals", mealItems);
   }
 
-  void loadMeals({int location}) async {
+  void loadMeals({int key}) async {
+    print("calling load");
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     List mealItems = prefs.getStringList("MyMeals");
 
     if (mealItems != null) {
+      print("meals isnt null");
       List<Map> newItems = [];
 
       for (var item in mealItems) {
         newItems.add(json.decode(item));
       }
 
-      switch (location) {
-        case 1:
-          setState(() {
-            savedMealMap = newItems;
-          });
+      savedMealMap = newItems;
 
-          break;
-        default:
+      if (key == 1) {
+        setState(() {
           savedMealMap = newItems;
+        });
       }
     }
   }
