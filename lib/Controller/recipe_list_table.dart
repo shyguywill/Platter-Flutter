@@ -100,7 +100,7 @@ class _RecipeTable extends State<RecipeTable> {
   Widget build(BuildContext context) {
     if (data == null) {
       print("if");
-      return Scaffold(
+      return Scaffold(  
         body: Stack(
           children: <Widget>[
             _progressHUD,

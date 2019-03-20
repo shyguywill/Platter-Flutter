@@ -61,6 +61,9 @@ class _Mealpage extends State<MealPage> {
 
     return WebviewScaffold(
       appBar: AppBar(
+        iconTheme: IconThemeData(
+          color: Theme.of(context).accentColor
+        ),
         actions: <Widget>[
           FlatButton(
             shape: RoundedRectangleBorder(
@@ -78,7 +81,7 @@ class _Mealpage extends State<MealPage> {
                   },
           )
         ],
-        title: Text("Recipe"),
+        title: Text("Recipe",style: TextStyle(color: Theme.of(context).accentColor),),
       ),
       url: widget.mealURL,
       clearCache: true,

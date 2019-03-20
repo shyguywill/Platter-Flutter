@@ -68,7 +68,10 @@ class _IngredientTable extends State<IngredientTable> {
 
                     child: ListView.builder(
                   itemBuilder: (BuildContext context, int row) {
-                    return Card(child: ListTile(
+                    return Card(
+                      elevation: 15,
+                      
+                      child: ListTile(
                       onTap: () {},
                       trailing: IconButton(
                         icon: Icon(Icons.delete,color: Colors.pinkAccent,),
@@ -102,7 +105,7 @@ class _IngredientTable extends State<IngredientTable> {
               ),
               Container(
                 padding: EdgeInsets.symmetric(vertical: 10.0),
-                width: 120.0,
+                width: 150.0,
                 height: 70.0,
                 child: RawMaterialButton(
                     fillColor: Colors.pinkAccent,
@@ -111,7 +114,7 @@ class _IngredientTable extends State<IngredientTable> {
                     elevation: 5.0,
                     child: Text(
                       "Platter Me",
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(color: Colors.white,fontWeight: FontWeight.w700,fontSize: 20),
                     ),
                     onPressed: () async {
                       var connectivityResult =

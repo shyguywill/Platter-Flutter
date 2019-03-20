@@ -13,8 +13,12 @@ class RecipePage extends StatelessWidget{
   Widget build(BuildContext context) {
    
     return Scaffold(
+      
       appBar: AppBar(
-        title: Text("Meals"),
+        iconTheme: IconThemeData(
+          color: Theme.of(context).accentColor
+        ),
+        title: Text("Meals", style: TextStyle(color: Theme.of(context).accentColor),),
       ),
       body: RecipeTable(finalURL),
     

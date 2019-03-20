@@ -15,9 +15,14 @@ class RecipeIngredeints extends StatelessWidget {
       top: false,
       child: Scaffold(
         appBar: AppBar(
+          iconTheme: IconThemeData(
+          color: Theme.of(context).accentColor
+        ),
+          
+
           title: Text(
             _pageDetails[0],
-            maxLines: 1,
+            maxLines: 1,style: TextStyle(color: Theme.of(context).accentColor),
           ),
         ),
         body: Stack(

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:core';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Controller/home_widgets.dart';
 import './auth.dart';
 import "./my_recipes.dart";
 
-class StartPage extends StatelessWidget {
+class StartPage extends StatefulWidget {
   final int streak;
   final Function getStreak;
 
@@ -15,22 +16,34 @@ class StartPage extends StatelessWidget {
 
   StartPage(this.streak, this.getStreak, this.myMeals, this.load, this.delete);
 
- 
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    return _StartPage();
+  }
+}
+
+class _StartPage extends State<StartPage> {
+  bool userSignedUp = false;
+
+  void getUserStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    bool status = prefs.getBool("user") ?? false;
+
+    userSignedUp = status;
+  }
+
   @override
   Widget build(BuildContext context) {
+    widget.load();
+    widget.getStreak();
+
+    getUserStatus();
+
     print("Start build");
 
-    load();
-
-    getStreak();
-
     return Container(
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          fit: BoxFit.cover,
-          image: AssetImage("assets/logoNoBackground.png")
-        )
-      ),
         margin: EdgeInsets.all(10),
         child: ListView(
           children: <Widget>[
@@ -42,49 +55,73 @@ class StartPage extends StatelessWidget {
                     child: Container(
                       padding:
                           EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                      child: streakBanner(streak),
+                      child: streakBanner(widget.streak),
                     ),
                   ),
                   Container(
                     padding: EdgeInsets.only(bottom: 30),
-                    child: buildStreak(streak),
+                    child: buildStreak(widget.streak),
                   ),
                   Container(
-                    child: streakAward(streak),
+                    child: streakAward(widget.streak),
                   ),
-                  userEncouragement(streak)
+                  userEncouragement(widget.streak)
                 ],
               ),
             ),
-            Card(
+            userSignedUp ? alternateUserCard() :Card(
               elevation: 15,
               child: ListTile(
+                onTap: () {
+                  Navigator.push(context,
+                          MaterialPageRoute(builder: (context) => Auth()))
+                      .then((onValue) {
+                    setState(() {});
+                  });
+                },
                 leading: Icon(
                   Icons.account_circle,
                   color: Colors.pinkAccent,
                 ),
                 title: Text(
-                  "Log in to share your own recipes with other Platter Users",
-                  textAlign: TextAlign.center,
-                ),
-                trailing: IconButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => Auth()));
-                  },
-                  icon: Icon(Icons.arrow_forward_ios),
-                ),
+                        "Log in to share your own recipes with other Platter Users",
+                        textAlign: TextAlign.center,
+                      ),
+                trailing: Icon(Icons.arrow_forward_ios),
               ),
-            ),
+            ) ,
             Card(
               elevation: 25,
               child: Container(
-                  height: myMeals.isNotEmpty
-                      ? (300 + (myMeals.length.toDouble() * 10 ?? 0))
+                  height: widget.myMeals.isNotEmpty
+                      ? (300 + (widget.myMeals.length.toDouble() * 10 ?? 0))
                       : 200,
-                  child: MyRecipes(myMeals, load, delete)),
+                  child: MyRecipes(widget.myMeals, widget.load, widget.delete)),
             )
           ],
         ));
+  }
+
+
+
+
+  Widget alternateUserCard(){
+
+    return Card(
+              elevation: 10,
+              child: ListTile(
+                onTap: () {
+                  
+                },
+                leading: Icon(
+                  Icons.account_circle,
+                  color: Colors.greenAccent,
+                ),
+                title: Text(
+                        "Thank you for joining us, your order be with you shortly."),
+                    
+               
+              ),
+            );
   }
 }

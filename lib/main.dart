@@ -23,14 +23,14 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyApp extends State<MyApp> {
-  int streak = 0;
+  int streakNumber = 0;
 
   void displayStreak() async {
     streakCount();
 
-    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    streak = prefs.getInt("Streak") ?? 0;
+    //streakNumber =  prefs.getInt("Streak") ?? 0;
   }
 
   void streakCount() async {
@@ -51,20 +51,29 @@ class _MyApp extends State<MyApp> {
       //43200
       SharedPreferences pref = await SharedPreferences.getInstance();
 
-      int streak = pref.getInt("Streak") ?? 0;
-      streak++;
+      int streak = pref.getInt("Streak") ?? 1;
 
-      print("This is your streak $streak");
+      int streak2 = streak + 1;
 
-      await pref.setInt("Streak", streak);
+      print("This is your streak $streak2");
+
+      await pref.setInt("Streak", streak2);
 
       await prefs1.setString("Launches", DateTime.now().toString());
+
+      setState(() {
+        streakNumber = streak + 1;
+      });
     } else if (time.difference(DateTime.parse(lastLaunch)).inSeconds >
         (5 * 4)) {
       print("out of time range");
       await prefs1.setString("Launches", DateTime.now().toString());
       SharedPreferences pref = await SharedPreferences.getInstance();
       await pref.setInt("Streak", 0);
+
+      setState(() {
+        streakNumber = 0;
+      });
     }
     print(
         "This is the time differece:${time.difference(DateTime.parse(lastLaunch)).inSeconds}");
@@ -178,8 +187,8 @@ class _MyApp extends State<MyApp> {
         accentColor: Colors.indigo[900],
       ),
       routes: {
-        "/": (context) =>
-            Home(savedMealMap, loadMeals, deleteMeal, streak, displayStreak),
+        "/": (context) => Home(
+            savedMealMap, loadMeals, deleteMeal, streakNumber, displayStreak),
         "/search": (context) => SearchList(
             addIngredient, deleteIngredient, loadIngredients, ingredientMap)
       },
