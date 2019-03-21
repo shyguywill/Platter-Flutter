@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -21,9 +21,18 @@ class _Auth extends State<Auth> {
   bool _errorsPresent = false;
   bool userLoggedIn = false;
   String _errorMessage;
-
+  bool _isLoading = false;
 
   final _formKey = new GlobalKey<FormState>();
+
+  void _launchURL() async {
+  const url = 'https://termsfeed.com/terms-conditions/326c2821e797d81cbcaeff104b0e2c68';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}
 
   void setUserStatus(bool status) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -36,24 +45,35 @@ class _Auth extends State<Auth> {
         _password != null &&
         _email != null &&
         _termsAccepted == true) {
-      final Map succesInfo = await signUp(_email, _password);
+      final Map successInfo = await signUp(_email, _password);
 
-      if (succesInfo["success"]) {
-
+      if (successInfo["success"]) {
         setState(() {
           userLoggedIn = true;
 
           setUserStatus(true);
-          
         });
-        
-       // Navigator.pop(context);
+
+        // Navigator.pop(context);
+      } else {
+        print(_password + _email);
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text("Something's gone wrong"),
+                content: Text(successInfo["message"]),
+                actions: <Widget>[
+                  FlatButton(
+                    child: Text("Okay"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              );
+            });
       }
-
-      print( _password + _email);
-
-      //Network
-
     } else
       setState(() {
         _errorMessage = "Please fill all fields and accept terms";
@@ -63,6 +83,10 @@ class _Auth extends State<Auth> {
   }
 
   Future<Map<String, dynamic>> signUp(String email, String password) async {
+    setState(() {
+      _isLoading = true;
+    });
+
     final Map<String, dynamic> authData = {
       "email": email,
       "password": password,
@@ -71,20 +95,41 @@ class _Auth extends State<Auth> {
 
     final http.Response res = await http.post(
         "https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyABdIF7F-ch19OVorQKspJEiiMdoIECEOY",
-        body: json.encode(authData));
+        body: json.encode(authData),
+        headers: {"Content-Type": "application/json"});
 
-    return {"success": true, "Message": "Success"};
+    print(json.decode(res.body)); //obtaining response
+
+    var hasError = true;
+    var message =
+        "An error has occured, please check your email and password then try again";
+
+    Map<String, dynamic> responseBody = json.decode(res.body);
+
+    if (responseBody.containsKey("idToken")) {
+      hasError = false;
+      message = "Success";
+    } else if (responseBody["error"]["message"] == "EMAIL_EXISTS") {
+      message = "This email already exists";
+    }
+
+    setState(() {
+      _isLoading = false;
+    });
+
+    return {"success": !hasError, "message": message};
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text('Sign Up'),
+          iconTheme: IconThemeData(color:Theme.of(context).accentColor),
+          title: new Text('Sign Up',style: TextStyle(color: Theme.of(context).accentColor),),
         ),
         body: Stack(
           children: <Widget>[
-            userLoggedIn? userSignedUp() : _showBody(),
+            userLoggedIn ? userSignedUp() : _showBody(),
           ],
         ));
   }
@@ -93,30 +138,38 @@ class _Auth extends State<Auth> {
     return new Container(
         padding: EdgeInsets.all(16.0),
         child: new Form(
-          key: _formKey,
-          child: new ListView(
-            shrinkWrap: true,
-            children: <Widget>[
-              _showLogo(),
-              _showEmailInput(),
-              _showPasswordInput(),
-              _confirmPasswordInput(),
-              _showErrorMessage(),
-              _showTermsAndConditions(),
-              _showPrimaryButton(),
-            ],
-          ),
-        ));
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: new Column(
+                children: <Widget>[
+                  _showLogo(),
+                  _showEmailInput(),
+                  _showPasswordInput(),
+                  _confirmPasswordInput(),
+                  _showErrorMessage(),
+                  _showTermsAndConditions(),
+                  _showPrimaryButton(),
+                ],
+              ),
+            )));
   }
 
-  Widget userSignedUp(){
-
-
+  Widget userSignedUp() {
     return Container(
-      child: Center(child:
-        Text("Thank you for Signing up to be a part of Platter, you will be the first to know when the Platter Cookbook become available",textAlign: TextAlign.center,)
-      ),
-    );
+        padding: EdgeInsets.all(20),
+        child: ListView(children: <Widget>[ Center(
+          child: Container(
+              margin: EdgeInsets.all(10),
+              child: Column(
+                children: <Widget>[
+                  Image.asset('assets/logoNoBackground.png'),
+                  Text(
+                    "Thank you for signing up to be a part of Platter's CookBook. This part of the app is still under construction, but you will be the first to know when it becomes available!",
+                    textAlign: TextAlign.center, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Theme.of(context).accentColor),
+                  )
+                ],
+              )),
+        )]));
   }
 
   Widget _showLogo() {
@@ -160,10 +213,10 @@ class _Auth extends State<Auth> {
       padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
       child: new TextField(
         maxLines: 1,
-        //obscureText: true,
+        obscureText: true,
         autofocus: false,
         decoration: new InputDecoration(
-            hintText: 'Password',
+            hintText: 'Password (Min. 6 characters)',
             icon: new Icon(
               Icons.lock,
               color: Colors.grey,
@@ -182,7 +235,7 @@ class _Auth extends State<Auth> {
       padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
       child: new TextField(
         maxLines: 1,
-        //obscureText: true,
+        obscureText: true,
         autofocus: false,
         decoration: new InputDecoration(
             hintText: 'Confirm Password',
@@ -208,19 +261,23 @@ class _Auth extends State<Auth> {
   }
 
   Widget _showPrimaryButton() {
-    return new Padding(
-        padding: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
-        child: new MaterialButton(
-          elevation: 5.0,
-          minWidth: 200.0,
-          height: 42.0,
-          color: Colors.greenAccent,
-          child: Text('Sign Up',
-              style: new TextStyle(fontSize: 20.0, color: Colors.white)),
-          onPressed: () {
-            netWork();
-          },
-        ));
+    return _isLoading
+        ? CircularProgressIndicator(
+            backgroundColor: Colors.red,
+          )
+        : new Padding(
+            padding: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),
+            child: new MaterialButton(
+              elevation: 5.0,
+              minWidth: 200.0,
+              height: 42.0,
+              color: Colors.greenAccent,
+              child: Text('Sign Up',
+                  style: new TextStyle(fontSize: 20.0, color: Colors.white)),
+              onPressed: () {
+                netWork();
+              },
+            ));
   }
 
   Widget _showTermsAndConditions() {
@@ -232,7 +289,7 @@ class _Auth extends State<Auth> {
             "Accept terms and conditions",
             style: TextStyle(color: Colors.blue),
           ),
-          onPressed: () {},
+          onPressed: _launchURL,
         ),
         Checkbox(
           activeColor: Colors.greenAccent,

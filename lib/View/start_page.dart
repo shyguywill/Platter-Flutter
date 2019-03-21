@@ -69,27 +69,29 @@ class _StartPage extends State<StartPage> {
                 ],
               ),
             ),
-            userSignedUp ? alternateUserCard() :Card(
-              elevation: 15,
-              child: ListTile(
-                onTap: () {
-                  Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Auth()))
-                      .then((onValue) {
-                    setState(() {});
-                  });
-                },
-                leading: Icon(
-                  Icons.account_circle,
-                  color: Colors.pinkAccent,
-                ),
-                title: Text(
+            userSignedUp
+                ? alternateUserCard()
+                : Card(
+                    elevation: 15,
+                    child: ListTile(
+                      onTap: () {
+                        Navigator.push(context,
+                                MaterialPageRoute(builder: (context) => Auth()))
+                            .then((onValue) {
+                          setState(() {});
+                        });
+                      },
+                      leading: Icon(
+                        Icons.account_circle,
+                        color: Colors.pinkAccent,
+                      ),
+                      title: Text(
                         "Log in to share your own recipes with other Platter Users",
                         textAlign: TextAlign.center,
                       ),
-                trailing: Icon(Icons.arrow_forward_ios),
-              ),
-            ) ,
+                      trailing: Icon(Icons.arrow_forward_ios),
+                    ),
+                  ),
             Card(
               elevation: 25,
               child: Container(
@@ -102,26 +104,18 @@ class _StartPage extends State<StartPage> {
         ));
   }
 
-
-
-
-  Widget alternateUserCard(){
-
+  Widget alternateUserCard() {
     return Card(
-              elevation: 10,
-              child: ListTile(
-                onTap: () {
-                  
-                },
-                leading: Icon(
-                  Icons.account_circle,
-                  color: Colors.greenAccent,
-                ),
-                title: Text(
-                        "Thank you for joining us, your order be with you shortly."),
-                    
-               
-              ),
-            );
+      elevation: 10,
+      child: ListTile(
+        onTap: () {},
+        leading: Icon(
+          Icons.account_circle,
+          color: Colors.greenAccent,
+        ),
+        title: Text(
+            "We are building your new community. Log in will be available shortly.",textAlign: TextAlign.start ),
+      ),
+    );
   }
 }

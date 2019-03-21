@@ -15,13 +15,11 @@ class MealPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    
     return _Mealpage();
   }
 }
 
 class _Mealpage extends State<MealPage> {
-
   bool _buttonPressed = false;
 
   save() {
@@ -40,37 +38,26 @@ class _Mealpage extends State<MealPage> {
     print("Saved");
   }
 
-
   @override
   void initState() {
-   
     super.initState();
 
-    if (widget.destination == "Store"){
-
+    if (widget.destination == "Store") {
       _buttonPressed = true;
-
     }
   }
 
   @override
   Widget build(BuildContext context) {
-
-    
-
-
     return WebviewScaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Theme.of(context).accentColor
-        ),
+        iconTheme: IconThemeData(color: Theme.of(context).accentColor),
         actions: <Widget>[
-          FlatButton(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0)),
-            child: Text(
-              _buttonPressed ? "Saved" : "Save Meal",
-              style: TextStyle(color: Colors.greenAccent),
+          IconButton(
+            color: Colors.pinkAccent,
+            icon: Icon(
+
+              _buttonPressed ? Icons.favorite : Icons.favorite_border,
             ),
             onPressed: _buttonPressed
                 ? () {
@@ -79,9 +66,12 @@ class _Mealpage extends State<MealPage> {
                 : () {
                     save();
                   },
-          )
+          ),
         ],
-        title: Text("Recipe",style: TextStyle(color: Theme.of(context).accentColor),),
+        title: Text(
+          "Recipe",
+          style: TextStyle(color: Theme.of(context).accentColor),
+        ),
       ),
       url: widget.mealURL,
       clearCache: true,
