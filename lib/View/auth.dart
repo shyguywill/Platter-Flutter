@@ -156,20 +156,16 @@ class _Auth extends State<Auth> {
 
   Widget userSignedUp() {
     return Container(
-        padding: EdgeInsets.all(20),
-        child: ListView(children: <Widget>[ Center(
-          child: Container(
-              margin: EdgeInsets.all(10),
-              child: Column(
-                children: <Widget>[
+        padding: EdgeInsets.all(50),
+        child: ListView(children: <Widget>[ 
                   Image.asset('assets/logoNoBackground.png'),
                   Text(
                     "Thank you for signing up to be a part of Platter's CookBook. This part of the app is still under construction, but you will be the first to know when it becomes available!",
                     textAlign: TextAlign.center, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,color: Theme.of(context).accentColor),
                   )
                 ],
-              )),
-        )]));
+              ),
+        );
   }
 
   Widget _showLogo() {
