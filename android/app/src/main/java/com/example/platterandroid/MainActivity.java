@@ -1,4 +1,4 @@
-package com.example.platterandroid;
+package com.theplatterapp.Platterfoodrecipes;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

@@ -46,8 +46,8 @@ class _MyApp extends State<MyApp> {
 
     var time = DateTime.now();
 
-    if (time.difference(DateTime.parse(lastLaunch)).inSeconds > 5 &&
-        time.difference(DateTime.parse(lastLaunch)).inSeconds < (5 * 4)) {
+    if (time.difference(DateTime.parse(lastLaunch)).inSeconds > 43200 &&
+        time.difference(DateTime.parse(lastLaunch)).inSeconds < (43200 * 4)) {
       //43200
       SharedPreferences pref = await SharedPreferences.getInstance();
 

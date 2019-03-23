@@ -24,8 +24,9 @@ class _AddItems extends State<AddItems> {
             context: context,
             builder: (context) {
               return AlertDialog(
-                title: Text("Add an item to your Pantry"),
+                title: Text("Add an item to your pantry"),
                 content: TextField(
+                  autofocus: true,
                   autocorrect: true,
                   textInputAction: TextInputAction.done,
                   textCapitalization: TextCapitalization.sentences,

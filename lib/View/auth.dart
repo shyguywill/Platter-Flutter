@@ -259,7 +259,6 @@ class _Auth extends State<Auth> {
   Widget _showPrimaryButton() {
     return _isLoading
         ? CircularProgressIndicator(
-            backgroundColor: Colors.red,
           )
         : new Padding(
             padding: EdgeInsets.fromLTRB(0.0, 45.0, 0.0, 0.0),

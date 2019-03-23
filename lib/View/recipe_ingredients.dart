@@ -70,6 +70,9 @@ class RecipeIngredeints extends StatelessWidget {
                         print("*mealpage*${_pageDetails[3]}*${_pageDetails[1]}*${_pageDetails[0]}");
 
 
+                        //passing in URL(3),Image(1),Label(0)
+
+
 
                         Navigator.pushNamed(context, "*mealpage*${_pageDetails[3]}*${_pageDetails[1]}*${_pageDetails[0]}");
                       }),
