@@ -8,7 +8,6 @@ import '../View/recipe_ingredients.dart';
 import '../Model/sort_list.dart';
 import '../Model/ingredients.dart';
 
-
 class RecipeTable extends StatefulWidget {
   final String _finalURL;
 
@@ -80,7 +79,7 @@ class _RecipeTable extends State<RecipeTable> {
               return AlertDialog(
                 title: Text("Uh oh"),
                 content: Text(
-                    "Please try a different combination of, or less, ingredients"),
+                    "Please check your ingredient spellings, or maybe try a different combination of ingredients"),
                 actions: <Widget>[
                   FlatButton(
                     child: Text("Got it"),
@@ -100,7 +99,7 @@ class _RecipeTable extends State<RecipeTable> {
   Widget build(BuildContext context) {
     if (data == null) {
       print("if");
-      return Scaffold(  
+      return Scaffold(
         body: Stack(
           children: <Widget>[
             _progressHUD,
@@ -115,8 +114,7 @@ class _RecipeTable extends State<RecipeTable> {
     return ListView.builder(
       itemCount: data.length,
       itemBuilder: (BuildContext context, int row) {
-        
-        int calorieCount = ingredientArray[row].calories; 
+        int calorieCount = ingredientArray[row].calories;
 
         print("building list");
 
@@ -148,9 +146,10 @@ class _RecipeTable extends State<RecipeTable> {
                     },
                   ),
                   decoration: BoxDecoration(
+                      //gradient: ,
                       image: DecorationImage(
                         colorFilter: ColorFilter.mode(
-                            Colors.black.withOpacity(0.3),
+                            Colors.black.withOpacity(0.1),
                             BlendMode
                                 .darken), //Assign image asvdecoration, allowing for cropping
                         image: NetworkImage(
@@ -166,9 +165,12 @@ class _RecipeTable extends State<RecipeTable> {
                   textAlign: TextAlign.center,
                   maxLines: 2,
                   style: TextStyle(
+                    background: Paint()
+                      ..colorFilter = ColorFilter.mode(
+                          Colors.black.withOpacity(0.2), BlendMode.dstATop),
                     color: Colors.white,
                     fontSize: 20,
-                    fontWeight: FontWeight.w400,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
@@ -176,6 +178,9 @@ class _RecipeTable extends State<RecipeTable> {
                 alignment: Alignment.bottomRight,
                 child: Text("Calories:$calorieCount",
                     style: TextStyle(
+                      background: Paint()
+                      ..colorFilter = ColorFilter.mode(
+                          Colors.black.withOpacity(0.2), BlendMode.dstATop),
                         color: Colors.white,
                         fontSize: 15,
                         fontFamily: "Futura",
@@ -187,6 +192,9 @@ class _RecipeTable extends State<RecipeTable> {
                     ingredientLabel(
                         ingredientArray[row].ingredients.difference()),
                     style: TextStyle(
+                      background: Paint()
+                      ..colorFilter = ColorFilter.mode(
+                          Colors.black.withOpacity(0.2), BlendMode.dstATop),
                       color: Colors.white,
                       fontSize: 15,
                       fontFamily: "Futura",

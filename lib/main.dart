@@ -46,8 +46,8 @@ class _MyApp extends State<MyApp> {
 
     var time = DateTime.now();
 
-    if (time.difference(DateTime.parse(lastLaunch)).inSeconds > 43200 &&
-        time.difference(DateTime.parse(lastLaunch)).inSeconds < (43200 * 4)) {
+    if (time.difference(DateTime.parse(lastLaunch)).inHours > 12 &&
+        time.difference(DateTime.parse(lastLaunch)).inHours < (12* 4)) {
       //43200
       SharedPreferences pref = await SharedPreferences.getInstance();
 
@@ -64,8 +64,8 @@ class _MyApp extends State<MyApp> {
       setState(() {
         streakNumber = streak + 1;
       });
-    } else if (time.difference(DateTime.parse(lastLaunch)).inSeconds >
-        (5 * 4)) {
+    } else if (time.difference(DateTime.parse(lastLaunch)).inHours >
+        (12 * 4)) {
       print("out of time range");
       await prefs1.setString("Launches", DateTime.now().toString());
       SharedPreferences pref = await SharedPreferences.getInstance();

@@ -6,8 +6,31 @@ Widget userEncouragement(int streak) {
     if (streak >= 7) {
       return Text("You're a Platter Superstar!");
     }
+    if (streak == 6){
+      return Text("R.I.P Stan Lee");
+    }
+    if (streak == 5){
+      return Text("Just your friendly neighborhood Platter-Man");
+    }
 
-    return Text("Keep it going");
+    if (streak == 4){
+      return Text("Come with me if you want to Platter!");
+    }
+    
+
+    if (streak == 3){
+      return Text("Oh, I wanna Platter with somebody");
+    }
+
+    if (streak == 2){
+      return Text("Hello! Is it Platter your'e looking for?");
+    }
+
+
+
+    return Container(
+      padding: EdgeInsets.only(bottom: 5),
+      child:Text("Keep it going"));
   }
 
   Widget streakBanner(int streak) {

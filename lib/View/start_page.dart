@@ -36,6 +36,9 @@ class _StartPage extends State<StartPage> {
 
   @override
   Widget build(BuildContext context) {
+
+    double height = MediaQuery.of(context).size.height;  //User Screen height
+
     widget.load();
     widget.getStreak();
 
@@ -86,7 +89,7 @@ class _StartPage extends State<StartPage> {
                         color: Colors.pinkAccent,
                       ),
                       title: Text(
-                        "Log in to share your own recipes with other Platter Users",
+                        "Log in to share your own recipes with other Platter users",
                         textAlign: TextAlign.center,
                       ),
                       trailing: Icon(Icons.arrow_forward_ios),
@@ -96,7 +99,7 @@ class _StartPage extends State<StartPage> {
               elevation: 25,
               child: Container(
                   height: widget.myMeals.isNotEmpty
-                      ? (300 + (widget.myMeals.length.toDouble() * 10 ?? 0))
+                      ? (height/2.22 + (widget.myMeals.length.toDouble() * 10 ?? 0))
                       : 200,
                   child: MyRecipes(widget.myMeals, widget.load, widget.delete)),
             )

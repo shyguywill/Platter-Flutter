@@ -57,9 +57,11 @@ class _IngredientTable extends State<IngredientTable> {
     }
 
     return widget.ingredientMap.isEmpty
-        ? Center(
-            child: Text("Hit the '+' button to add items to your pantry", textAlign: TextAlign.center,),
-          )
+        ? Container(
+          padding: EdgeInsets.all(10),
+          child: Center(
+            child: Text("Hit the '+' button to add items to your pantry. Then search for meals using those ingredients.", textAlign: TextAlign.center,),
+          ))
         : Column(
             children: <Widget>[
               Expanded(

@@ -281,7 +281,7 @@ class _Auth extends State<Auth> {
       children: <Widget>[
         FlatButton(
           child: Text(
-            "Accept terms and conditions",
+            "Accept Terms and Conditions",
             style: TextStyle(color: Colors.blue),
           ),
           onPressed: _launchURL,
