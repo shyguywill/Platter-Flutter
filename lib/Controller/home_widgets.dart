@@ -1,161 +1,171 @@
 import 'package:flutter/material.dart';
 
-
-
 Widget userEncouragement(int streak) {
-    if (streak >= 7) {
-      return Text("You're a Platter Superstar!");
-    }
-    if (streak == 6){
-      return Text("R.I.P Stan Lee");
-    }
-    if (streak == 5){
-      return Text("Just your friendly neighborhood Platter-Man");
-    }
+  String message = "";
 
-    if (streak == 4){
-      return Text("Come with me if you want to Platter!");
-    }
-    
+  if (streak == 0) {
+    message = "Keep it going!";
+  }
 
-    if (streak == 3){
-      return Text("Oh, I wanna Platter with somebody");
-    }
+  if (streak == 1) {
+    message = "Back to the Platter.";
+  }
 
-    if (streak == 2){
-      return Text("Hello! Is it Platter your'e looking for?");
-    }
+  if (streak == 2) {
+    message = "Hello! Is it Platter you're looking for?";
+  }
 
+  if (streak == 3) {
+    message = "Oh, I wanna Platter with somebody.";
+  }
 
+  if (streak == 4) {
+    message = "Come with me if you want to Platter!";
+  }
 
-    return Container(
+  if (streak == 5) {
+    message = "Just your friendly neighborhood Platter-Man.";
+  }
+  if (streak == 6) {
+    message = "R.I.P Stan Lee.";
+  }
+
+  if (streak >= 7) {
+    message = "You're a Platter Superstar!";
+  }
+
+  return Container(
       padding: EdgeInsets.only(bottom: 5),
-      child:Text("Keep it going"));
-  }
+      child: Text(
+        message,
+        softWrap: true,
+        textAlign: TextAlign.center,
+        maxLines: 2,
+      ));
+}
 
-  Widget streakBanner(int streak) {
-    return Container(
-      height: 50,
-      child: Column(
-        children: <Widget>[
-          Text("Streak"),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(streak.toString()),
-              Icon(
-                Icons.flash_on,
-                color: Colors.greenAccent,
-              )
-            ],
-          )
-        ],
-      ),
-    );
-  }
-
-  Widget buildStreak(int streak) {
-    Color _boxColor() {
-      if (streak >= 1) {
-        streak = (streak - 1);
-
-        return Colors.greenAccent;
-      }
-
-      return Colors.white;
-    }
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+Widget streakBanner(int streak) {
+  return Container(
+    height: 50,
+    child: Column(
       children: <Widget>[
-        Container(
-          margin: EdgeInsets.all(5),
-          height: 5,
-          width: 25,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-                border: Border.all(width: 0.5, color: Colors.grey),
-                color: _boxColor(),
-                borderRadius: BorderRadius.circular(5)),
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.all(5),
-          height: 5,
-          width: 25,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-                border: Border.all(width: 0.5, color: Colors.grey),
-                color: _boxColor(),
-                borderRadius: BorderRadius.circular(5)),
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.all(5),
-          height: 5,
-          width: 25,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-                border: Border.all(width: 0.5, color: Colors.grey),
-                color: _boxColor(),
-                borderRadius: BorderRadius.circular(5)),
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.all(5),
-          height: 5,
-          width: 25,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-                border: Border.all(width: 0.5, color: Colors.grey),
-                color: _boxColor(),
-                borderRadius: BorderRadius.circular(5)),
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.all(5),
-          height: 5,
-          width: 25,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-                border: Border.all(width: 0.5, color: Colors.grey),
-                color: _boxColor(),
-                borderRadius: BorderRadius.circular(5)),
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.all(5),
-          height: 5,
-          width: 25,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-                border: Border.all(width: 0.5, color: Colors.grey),
-                color: _boxColor(),
-                borderRadius: BorderRadius.circular(5)),
-          ),
-        ),
-        Container(
-          margin: EdgeInsets.all(5),
-          height: 5,
-          width: 25,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-                border: Border.all(width: 0.5, color: Colors.grey),
-                color: _boxColor(),
-                borderRadius: BorderRadius.circular(5)),
-          ),
+        Text("Streak"),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(streak.toString()),
+            Icon(
+              Icons.flash_on,
+              color: Colors.greenAccent,
+            )
+          ],
         )
       ],
+    ),
+  );
+}
+
+Widget buildStreak(int streak) {
+  Color _boxColor() {
+    if (streak >= 1) {
+      streak = (streak - 1);
+
+      return Colors.greenAccent;
+    }
+
+    return Colors.white;
+  }
+
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: <Widget>[
+      Container(
+        margin: EdgeInsets.all(5),
+        height: 5,
+        width: 25,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+              border: Border.all(width: 0.5, color: Colors.grey),
+              color: _boxColor(),
+              borderRadius: BorderRadius.circular(5)),
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.all(5),
+        height: 5,
+        width: 25,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+              border: Border.all(width: 0.5, color: Colors.grey),
+              color: _boxColor(),
+              borderRadius: BorderRadius.circular(5)),
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.all(5),
+        height: 5,
+        width: 25,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+              border: Border.all(width: 0.5, color: Colors.grey),
+              color: _boxColor(),
+              borderRadius: BorderRadius.circular(5)),
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.all(5),
+        height: 5,
+        width: 25,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+              border: Border.all(width: 0.5, color: Colors.grey),
+              color: _boxColor(),
+              borderRadius: BorderRadius.circular(5)),
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.all(5),
+        height: 5,
+        width: 25,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+              border: Border.all(width: 0.5, color: Colors.grey),
+              color: _boxColor(),
+              borderRadius: BorderRadius.circular(5)),
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.all(5),
+        height: 5,
+        width: 25,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+              border: Border.all(width: 0.5, color: Colors.grey),
+              color: _boxColor(),
+              borderRadius: BorderRadius.circular(5)),
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.all(5),
+        height: 5,
+        width: 25,
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+              border: Border.all(width: 0.5, color: Colors.grey),
+              color: _boxColor(),
+              borderRadius: BorderRadius.circular(5)),
+        ),
+      )
+    ],
+  );
+}
+
+Widget streakAward(int streak) {
+  if (streak >= 7) {
+    return Icon(
+      Icons.star,
+      color: Colors.yellow,
     );
   }
-
-  Widget streakAward(int streak) {
-    if (streak >= 7) {
-      return Icon(
-        Icons.star,
-        color: Colors.yellow,
-      );
-    }
-    return SizedBox();
-  }
-
+  return SizedBox();
+}

@@ -183,14 +183,21 @@ class _SearchRecipes extends State<SearchRecipes> {
                                                   ["recipe"]["image"])),
                                         ),
                                       ),
+                                      Container(
+                                        padding: EdgeInsets.symmetric(horizontal: 10),
+                                        
+                                        child:
                                       Text(
+                                        
                                         "${data[row]["recipe"]["label"]}",
-                                        maxLines: 1,
+                                        maxLines: 2,
+                                        textAlign: TextAlign.center,
+                                        softWrap: true,
                                         style: TextStyle(
                                             color: Colors.pinkAccent,
                                             fontWeight: FontWeight.w600,
                                             fontSize: 16),
-                                      ),
+                                      )),
                                       SizedBox(
                                         height: 10,
                                       ),

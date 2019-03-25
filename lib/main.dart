@@ -51,7 +51,7 @@ class _MyApp extends State<MyApp> {
       //43200
       SharedPreferences pref = await SharedPreferences.getInstance();
 
-      int streak = pref.getInt("Streak") ?? 1;
+      int streak = pref.getInt("Streak") ?? 0;
 
       int streak2 = streak + 1;
 
@@ -78,7 +78,7 @@ class _MyApp extends State<MyApp> {
     print(
         "This is the time differece:${time.difference(DateTime.parse(lastLaunch)).inSeconds}");
 
-    print(lastLaunch);
+    
   }
 
   List<Map> savedMealMap = [];

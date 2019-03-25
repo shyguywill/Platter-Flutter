@@ -79,7 +79,7 @@ class _RecipeTable extends State<RecipeTable> {
               return AlertDialog(
                 title: Text("Uh oh"),
                 content: Text(
-                    "Please check your ingredient spellings, or maybe try a different combination of ingredients"),
+                    "We can't seem to find anything with those ingredients. Please check the spelling or try a different combination."),
                 actions: <Widget>[
                   FlatButton(
                     child: Text("Got it"),

@@ -36,8 +36,7 @@ class _StartPage extends State<StartPage> {
 
   @override
   Widget build(BuildContext context) {
-
-    double height = MediaQuery.of(context).size.height;  //User Screen height
+    double height = MediaQuery.of(context).size.height; //User Screen height
 
     widget.load();
     widget.getStreak();
@@ -68,7 +67,7 @@ class _StartPage extends State<StartPage> {
                   Container(
                     child: streakAward(widget.streak),
                   ),
-                  userEncouragement(widget.streak)
+                  userEncouragement(widget.streak),
                 ],
               ),
             ),
@@ -99,7 +98,8 @@ class _StartPage extends State<StartPage> {
               elevation: 25,
               child: Container(
                   height: widget.myMeals.isNotEmpty
-                      ? (height/2.22 + (widget.myMeals.length.toDouble() * 10 ?? 0))
+                      ? (height / 2.22 +
+                          (widget.myMeals.length.toDouble() * 10 ?? 0))
                       : 200,
                   child: MyRecipes(widget.myMeals, widget.load, widget.delete)),
             )
@@ -117,7 +117,8 @@ class _StartPage extends State<StartPage> {
           color: Colors.greenAccent,
         ),
         title: Text(
-            "We are building your new community. Log in will be available shortly.",textAlign: TextAlign.start ),
+            "We are building your new community. Log in will be available shortly.",
+            textAlign: TextAlign.start),
       ),
     );
   }
