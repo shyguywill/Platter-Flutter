@@ -5,6 +5,8 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import '../secrets.dart';
+
 enum FormMode { LOGIN, SIGNUP }
 
 class Auth extends StatefulWidget {
@@ -94,7 +96,8 @@ class _Auth extends State<Auth> {
     };
 
     final http.Response res = await http.post(
-        "https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyABdIF7F-ch19OVorQKspJEiiMdoIECEOY",
+        
+        API.auth,
         body: json.encode(authData),
         headers: {"Content-Type": "application/json"});
 
