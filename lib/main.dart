@@ -47,7 +47,7 @@ class _MyApp extends State<MyApp> {
     var time = DateTime.now();
 
     if (time.difference(DateTime.parse(lastLaunch)).inHours > 12 &&
-        time.difference(DateTime.parse(lastLaunch)).inHours < (12* 4)) {
+        time.difference(DateTime.parse(lastLaunch)).inHours < 48) {
       //43200
       SharedPreferences pref = await SharedPreferences.getInstance();
 
@@ -62,10 +62,9 @@ class _MyApp extends State<MyApp> {
       await prefs1.setString("Launches", DateTime.now().toString());
 
       setState(() {
-        streakNumber = streak + 1;
+        streakNumber = streak2;
       });
-    } else if (time.difference(DateTime.parse(lastLaunch)).inHours >
-        (12 * 4)) {
+    } else if (time.difference(DateTime.parse(lastLaunch)).inHours > 48) {
       print("out of time range");
       await prefs1.setString("Launches", DateTime.now().toString());
       SharedPreferences pref = await SharedPreferences.getInstance();
@@ -74,11 +73,17 @@ class _MyApp extends State<MyApp> {
       setState(() {
         streakNumber = 0;
       });
+    } else {
+      SharedPreferences pref = await SharedPreferences.getInstance();
+
+      int streak = pref.getInt("Streak") ?? 0;
+
+      setState(() {
+        streakNumber = streak;
+      });
     }
     print(
         "This is the time differece:${time.difference(DateTime.parse(lastLaunch)).inSeconds}");
-
-    
   }
 
   List<Map> savedMealMap = [];

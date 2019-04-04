@@ -26,6 +26,14 @@ class StartPage extends StatefulWidget {
 class _StartPage extends State<StartPage> {
   bool userSignedUp = false;
 
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.getStreak();
+  }
+
   void getUserStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
