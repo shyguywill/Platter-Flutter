@@ -105,7 +105,7 @@ class _Auth extends State<Auth> {
 
     var hasError = true;
     var message =
-        "An error has occured, please check your email and password then try again";
+        "An error has occured, please check your email and password, then try again";
 
     Map<String, dynamic> responseBody = json.decode(res.body);
 

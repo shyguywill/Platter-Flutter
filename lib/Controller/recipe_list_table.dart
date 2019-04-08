@@ -56,7 +56,7 @@ class _RecipeTable extends State<RecipeTable> {
     //Network
     print("Setting getting data");
     var res = await http
-        .get(Uri.encodeFull(finalUrl), headers: {"Accept": "application/json"});
+        .get(Uri.encodeFull(finalUrl), headers: {"accept": "application/json"});
 
     //Parse Json
     setState(() {
@@ -119,91 +119,143 @@ class _RecipeTable extends State<RecipeTable> {
         print("building list");
 
         return Container(
-          height: 150,
-          margin: EdgeInsets.all(5),
-          child: Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              Container(
-                  child: ListTile(
-                    onTap: () {
-                      List details = [
-                        ingredientArray[row].label,
+          height: 180,
+          padding: EdgeInsets.all(10),
+          child: Card(
+            elevation: 15,
+            child: Container(
+                margin: EdgeInsets.only(top: 15),
+                child: ListTile(
+                  onTap: () {
+                    List details = [
+                      ingredientArray[row].label,
+                      ingredientArray[row].image,
+                      ingredientArray[row].source,
+                      ingredientArray[row].url,
+                    ];
+                    List ingredients = ingredientArray[row].ingredients;
+
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                RecipeIngredeints(details, ingredients)));
+
+                    print(details);
+                    //print(ingredients);
+                  },
+                  leading: Container(
+                      height: 100,
+                      child: Image.network(
                         ingredientArray[row].image,
-                        ingredientArray[row].source,
-                        ingredientArray[row].url,
-                      ];
-                      List ingredients = ingredientArray[row].ingredients;
-
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  RecipeIngredeints(details, ingredients)));
-
-                      print(details);
-                      //print(ingredients);
-                    },
-                  ),
-                  decoration: BoxDecoration(
-                      //gradient: ,
-                      image: DecorationImage(
-                        colorFilter: ColorFilter.mode(
-                            Colors.black.withOpacity(0.1),
-                            BlendMode
-                                .darken), //Assign image asvdecoration, allowing for cropping
-                        image: NetworkImage(
-                          ingredientArray[row].image,
-                        ),
-                        fit: BoxFit.cover,
-                      ),
-                      borderRadius: BorderRadius.all(Radius.circular(10)))),
-              Align(
-                alignment: Alignment.topCenter,
-                child: Text(
-                  ingredientArray[row].label,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  style: TextStyle(
-                    background: Paint()
-                      ..colorFilter = ColorFilter.mode(
-                          Colors.black.withOpacity(0.2), BlendMode.dstATop),
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Text("Calories:$calorieCount",
-                    style: TextStyle(
-                      background: Paint()
-                      ..colorFilter = ColorFilter.mode(
-                          Colors.black.withOpacity(0.2), BlendMode.dstATop),
-                        color: Colors.white,
-                        fontSize: 15,
-                        fontFamily: "Futura",
-                        fontWeight: FontWeight.w400)),
-              ),
-              Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Text(
+                        fit: BoxFit.contain,
+                      )),
+                  isThreeLine: true,
+                  title: Container(
+                      padding: EdgeInsets.only(bottom: 10),
+                      child: Text(
+                        ingredientArray[row].label,
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                      )),
+                  subtitle: Text(
                     ingredientLabel(
                         ingredientArray[row].ingredients.difference()),
-                    style: TextStyle(
-                      background: Paint()
-                      ..colorFilter = ColorFilter.mode(
-                          Colors.black.withOpacity(0.2), BlendMode.dstATop),
-                      color: Colors.white,
-                      fontSize: 15,
-                      fontFamily: "Futura",
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ))
-            ],
+                    textAlign: TextAlign.center,
+                  ),
+                  trailing: Text(
+                    "Cal:$calorieCount",
+                  ),
+                )),
           ),
         );
+
+        //Container(
+        //   height: 150,
+        //   margin: EdgeInsets.all(5),
+        //   child: Stack(
+        //     fit: StackFit.expand,
+        //     children: <Widget>[
+        //       Container(
+        //           child: ListTile(
+        //             onTap: () {
+        //               List details = [
+        //                 ingredientArray[row].label,
+        //                 ingredientArray[row].image,
+        //                 ingredientArray[row].source,
+        //                 ingredientArray[row].url,
+        //               ];
+        //               List ingredients = ingredientArray[row].ingredients;
+
+        //               Navigator.push(
+        //                   context,
+        //                   MaterialPageRoute(
+        //                       builder: (BuildContext context) =>
+        //                           RecipeIngredeints(details, ingredients)));
+
+        //               print(details);
+        //               //print(ingredients);
+        //             },
+        //           ),
+        //           decoration: BoxDecoration(
+        //               //gradient: ,
+        //               image: DecorationImage(
+        //                 colorFilter: ColorFilter.mode(
+        //                     Colors.black.withOpacity(0.1),
+        //                     BlendMode
+        //                         .darken), //Assign image asvdecoration, allowing for cropping
+        //                 image: NetworkImage(
+        //                   ingredientArray[row].image,
+        //                 ),
+        //                 fit: BoxFit.cover,
+        //               ),
+        //               borderRadius: BorderRadius.all(Radius.circular(10)))),
+        //       Align(
+        //         alignment: Alignment.topCenter,
+        //         child: Text(
+        //           ingredientArray[row].label,
+        //           textAlign: TextAlign.center,
+        //           maxLines: 2,
+        //           style: TextStyle(
+        //             background: Paint()
+        //               ..colorFilter = ColorFilter.mode(
+        //                   Colors.black.withOpacity(0.2), BlendMode.dstATop),
+        //             color: Colors.white,
+        //             fontSize: 20,
+        //             fontWeight: FontWeight.w700,
+        //           ),
+        //         ),
+        //       ),
+        //       Align(
+        //         alignment: Alignment.bottomRight,
+        //         child: Text("Calories:$calorieCount",
+        //             style: TextStyle(
+        //               background: Paint()
+        //               ..colorFilter = ColorFilter.mode(
+        //                   Colors.black.withOpacity(0.2), BlendMode.dstATop),
+        //                 color: Colors.white,
+        //                 fontSize: 15,
+        //                 fontFamily: "Futura",
+        //                 fontWeight: FontWeight.w400)),
+        //       ),
+        //       Align(
+        //           alignment: Alignment.bottomLeft,
+        //           child: Text(
+        //             ingredientLabel(
+        //                 ingredientArray[row].ingredients.difference()),
+        //             style: TextStyle(
+        //               background: Paint()
+        //               ..colorFilter = ColorFilter.mode(
+        //                   Colors.black.withOpacity(0.2), BlendMode.dstATop),
+        //               color: Colors.white,
+        //               fontSize: 15,
+        //               fontFamily: "Futura",
+        //               fontWeight: FontWeight.w400,
+        //             ),
+        //           ))
+        //     ],
+        //   ),
+        //);
       },
     );
   }

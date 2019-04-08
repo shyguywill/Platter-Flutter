@@ -25,10 +25,7 @@ class SearchList extends StatelessWidget{
             color: Theme.of(context).accentColor
           ),
           
-          title: Text("platter",style: TextStyle(
-            color: Theme.of(context).accentColor,
-            fontFamily: "Futura"
-          ),),
+          title: Container(height: 0.0,),
           bottom: TabBar(
             indicatorColor: Colors.pinkAccent,
             tabs: <Widget>[

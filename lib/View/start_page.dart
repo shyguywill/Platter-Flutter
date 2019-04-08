@@ -47,7 +47,7 @@ class _StartPage extends State<StartPage> {
     double height = MediaQuery.of(context).size.height; //User Screen height
 
     widget.load();
-    widget.getStreak();
+    //widget.getStreak();
 
     getUserStatus();
 
