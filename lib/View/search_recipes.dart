@@ -7,7 +7,7 @@ import '../secrets.dart';
 class SearchRecipes extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    // TODO: implement createState
+  
     return _SearchRecipes();
   }
 }
@@ -34,7 +34,7 @@ class _SearchRecipes extends State<SearchRecipes> {
       data = resBody["hits"];
       isLoading = false;
 
-      if (data.length < 1) {
+      if (data.length < 1) { //Catch no results returned
         print("else");
         showDialog(
             context: context,
@@ -57,18 +57,18 @@ class _SearchRecipes extends State<SearchRecipes> {
     });
   }
 
-  String createURL(String item) {
+  String createURL(String item) { //Creates restfulAPI URL
     return "${EdmAPI.baseURL + item}&app_id=${EdmAPI.appID}&app_key=${EdmAPI.appKey}&from=0&to=100";
   }
 
-  Widget showCircularLoader() {
+  Widget showCircularLoader() { 
     return isLoading ? CircularProgressIndicator() : SizedBox();
   }
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width; //Get user screen width
+    double height = MediaQuery.of(context).size.height; //Get user screen height
 
     print (height/1.55);
 
@@ -79,8 +79,8 @@ class _SearchRecipes extends State<SearchRecipes> {
         width: width,
         child: Column(
           children: <Widget>[
-            Container(
-              padding: EdgeInsets.all(10),
+            Container( //TextFeild 
+              padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
               decoration:
                   BoxDecoration(borderRadius: BorderRadius.circular(35)),
               child: TextField(
@@ -120,8 +120,8 @@ class _SearchRecipes extends State<SearchRecipes> {
             ),
             data == null
                 ? Container(
-                    width: width / 1.2,
-                    height: height / 1.45,
+                    width: width / 1.1,
+                    height: height / 1.4,
                     child: Card(
                         elevation: 4.0,
                         child: 
@@ -169,7 +169,24 @@ class _SearchRecipes extends State<SearchRecipes> {
                                     // crossAxisAlignment: CrossAxisAlignment.start,
 
                                     children: <Widget>[
-                                      new Container(
+                                      Container( //Meal title
+                                        padding: EdgeInsets.symmetric(horizontal: 10),
+                                        child:
+                                        Container(
+                                          padding: EdgeInsets.only(top: 10),
+                                          child:
+                                      Text( 
+                                        
+                                        "${data[row]["recipe"]["label"]}",
+                                        maxLines: 2,
+                                        textAlign: TextAlign.center,
+                                        softWrap: true,
+                                        style: TextStyle(
+                                            color: Colors.pinkAccent,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 16),
+                                      ))),
+                                       new Container( //Meal picture
                                         width: width / 1.5,
                                         height: height / 2.5,
                                         decoration: new BoxDecoration(
@@ -183,25 +200,8 @@ class _SearchRecipes extends State<SearchRecipes> {
                                                   ["recipe"]["image"])),
                                         ),
                                       ),
-                                      Container(
-                                        padding: EdgeInsets.symmetric(horizontal: 10),
-                                        
-                                        child:
-                                      Text(
-                                        
-                                        "${data[row]["recipe"]["label"]}",
-                                        maxLines: 2,
-                                        textAlign: TextAlign.center,
-                                        softWrap: true,
-                                        style: TextStyle(
-                                            color: Colors.pinkAccent,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 16),
-                                      )),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Container(
+                                     
+                                      Container( //Meal info column
                                           padding: EdgeInsets.only(left: 32),
                                           height: 130,
                                           width: width / 1.1,
@@ -246,7 +246,7 @@ class _SearchRecipes extends State<SearchRecipes> {
                                                           FontWeight.w600)),
                                             ],
                                           )),
-                                      Container(
+                                      Container( //Check it out button
                                         height: 40,
                                           padding: EdgeInsets.only(top: 10),
                                           child: RaisedButton(
@@ -257,6 +257,9 @@ class _SearchRecipes extends State<SearchRecipes> {
                                             color: Colors.greenAccent,
                                             child: Text(
                                                 "Check it out on ${data[row]["recipe"]["source"]}",
+                                                style: TextStyle(
+                                                  color: Colors.white
+                                                ),
                                                 maxLines: 1,),
                                             onPressed: () {
                                               Navigator.pushNamed(context,

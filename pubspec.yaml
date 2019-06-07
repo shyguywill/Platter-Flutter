@@ -22,6 +22,8 @@ dependencies:
   stretchy_header: "^1.0.4"
   connectivity: ^0.4.2
   url_launcher: ^5.0.2
+  launch_review: ^2.0.0
+  share: ^0.6.1
   
  
   
