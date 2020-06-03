@@ -8,11 +8,12 @@ import "./View/list_and_search.dart";
 import './View/meal_page.dart';
 
 void main() {
-  SystemChrome.setPreferredOrientations(
-          [DeviceOrientation.portraitUp]) //Lock orientation to portrait
-      .then((_) {
-    runApp(new MyApp());
-  });
+  runApp(new MyApp());
+  // SystemChrome.setPreferredOrientations(
+  //         [DeviceOrientation.portraitUp]) //Lock orientation to portrait
+  //     .then((_) {
+  //   runApp(new MyApp());
+  // });
 }
 
 class MyApp extends StatefulWidget {
@@ -185,7 +186,7 @@ class _MyApp extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false, //remove debug banner
+      //debugShowCheckedModeBanner: false, //remove debug banner
       theme: ThemeData(
         fontFamily: "Futura",
         primaryColor: Colors.white,

@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'dart:core';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import 'dart:math';
+import 'package:http/http.dart' as http;
 
 import '../Controller/home_widgets.dart';
 import './auth.dart';
 import "./my_recipes.dart";
+import '../secrets.dart';
 
 class StartPage extends StatefulWidget {
   final int streak;
@@ -25,6 +29,7 @@ class StartPage extends StatefulWidget {
 
 class _StartPage extends State<StartPage> {
   bool userSignedUp = false;
+  Map data;
 
 
   @override
@@ -32,6 +37,7 @@ class _StartPage extends State<StartPage> {
     // TODO: implement initState
     super.initState();
     widget.getStreak();
+    getData();
   }
 
   void getUserStatus() async {
@@ -41,6 +47,31 @@ class _StartPage extends State<StartPage> {
 
     userSignedUp = status;
   }
+
+   void getData() async {
+    //Network
+    print("Setting getting data");
+    var res = await http.get(Uri.encodeFull(createURL()), headers: {"accept": "application/json"});
+
+    //Parse Json
+      print("Setting state");
+      var resBody = json.decode(res.body);
+      Random random = new Random();
+      int randomNumber = random.nextInt(100); 
+      //print("This is data lenght ${data.length}");
+      //print(randomNumber);
+       //print(resBody["hits"][randomNumber]["recipe"]);
+
+       setState(() {
+         data = resBody["hits"][randomNumber]["recipe"];
+       });
+    
+  }
+
+  String createURL() { //Creates restfulAPI URL
+    return "${EdmAPI.baseURL + 'chicken'}&app_id=${EdmAPI.appID}&app_key=${EdmAPI.appKey}&from=0&to=100";
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +133,48 @@ class _StartPage extends State<StartPage> {
                       trailing: Icon(Icons.arrow_forward_ios),
                     ),
                   ),
+                Card( //Meal of the day
+                  elevation: 25,
+                  child:  data != null ?
+                    Container(  
+                    margin: EdgeInsets.only(top: 15),
+                    child: ListTile(
+                      // onTap: () {
+                      //   List details = [
+                      //     ingredientArray[row].label,
+                      //     ingredientArray[row].image,
+                      //     ingredientArray[row].source,
+                      //     ingredientArray[row].url,
+                      //   ];
+                      //   List ingredients = ingredientArray[row].ingredients;
+
+                      //   Navigator.push(
+                      //       context,
+                      //       MaterialPageRoute(
+                      //           builder: (BuildContext context) =>
+                      //               RecipeIngredeints(details, ingredients)));
+
+                      //   print(details);
+                      //   //print(ingredients);
+                      // },
+                      leading: Container(
+                          height: 100,
+                          child: Image.network(
+                            data['image'],
+                            fit: BoxFit.contain,
+                          )),
+                      //isThreeLine: true,
+                      title: Container(
+                          padding: EdgeInsets.only(bottom: 10),
+                          child: Text(
+                            data['label'],
+                            textAlign: TextAlign.center,
+                            maxLines: 2,
+                          )),
+                    )) : 
+                Container(
+                  child: Text("Loading")
+                )),
             Card(
               elevation: 25,
               child: Container(

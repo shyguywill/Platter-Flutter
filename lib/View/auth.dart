@@ -27,7 +27,7 @@ class _Auth extends State<Auth> {
 
   final _formKey = new GlobalKey<FormState>();
 
-  void _launchURL() async {
+  void _launchURL() async { //Open terms and conditions
   const url = 'https://termsfeed.com/terms-conditions/326c2821e797d81cbcaeff104b0e2c68';
   if (await canLaunch(url)) {
     await launch(url);
@@ -36,7 +36,7 @@ class _Auth extends State<Auth> {
   }
 }
 
-  void setUserStatus(bool status) async {
+  void setUserStatus(bool status) async { //Register that user has signed up
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     await prefs.setBool("user", status);
@@ -97,7 +97,7 @@ class _Auth extends State<Auth> {
 
     final http.Response res = await http.post(
         
-        API.auth,
+        API.auth, //Firebase Restful API
         body: json.encode(authData),
         headers: {"Content-Type": "application/json"});
 
