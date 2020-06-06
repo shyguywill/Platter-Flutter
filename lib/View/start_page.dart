@@ -6,6 +6,7 @@ import 'dart:math';
 import 'package:http/http.dart' as http;
 
 import '../Controller/home_widgets.dart';
+import '../View/recipe_ingredients.dart';
 import './auth.dart';
 import "./my_recipes.dart";
 import '../secrets.dart';
@@ -69,7 +70,7 @@ class _StartPage extends State<StartPage> {
   }
 
   String createURL() { //Creates restfulAPI URL
-    return "${EdmAPI.baseURL + 'chicken'}&app_id=${EdmAPI.appID}&app_key=${EdmAPI.appKey}&from=0&to=100";
+    return "${EdmAPI.baseURL + 'tomato,rice'}&app_id=${EdmAPI.appID}&app_key=${EdmAPI.appKey}&from=0&to=100";
   }
 
 
@@ -135,28 +136,29 @@ class _StartPage extends State<StartPage> {
                   ),
                 Card( //Meal of the day
                   elevation: 25,
-                  child:  data != null ?
+                  child:  
+                      data != null ?
                     Container(  
-                    margin: EdgeInsets.only(top: 15),
+                    margin: EdgeInsets.all(15),
                     child: ListTile(
-                      // onTap: () {
-                      //   List details = [
-                      //     ingredientArray[row].label,
-                      //     ingredientArray[row].image,
-                      //     ingredientArray[row].source,
-                      //     ingredientArray[row].url,
-                      //   ];
-                      //   List ingredients = ingredientArray[row].ingredients;
+                      onTap: () {
+                        List details = [
+                          data['label'],
+                          data['image'],
+                          data['source'],
+                          data['url'],
+                        ];
+                        List ingredients = data['ingredientLines'];
 
-                      //   Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //           builder: (BuildContext context) =>
-                      //               RecipeIngredeints(details, ingredients)));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) =>
+                                    RecipeIngredeints(details, ingredients)));
 
-                      //   print(details);
-                      //   //print(ingredients);
-                      // },
+                        print(data);
+                        //print(ingredients);
+                      },
                       leading: Container(
                           height: 100,
                           child: Image.network(
@@ -167,14 +169,19 @@ class _StartPage extends State<StartPage> {
                       title: Container(
                           padding: EdgeInsets.only(bottom: 10),
                           child: Text(
-                            data['label'],
+                            "Recipe OTD: " + data['label'],
                             textAlign: TextAlign.center,
-                            maxLines: 2,
+                            maxLines: 3,
                           )),
+                           trailing: Icon(Icons.arrow_forward_ios),
                     )) : 
                 Container(
+                  margin: EdgeInsets.all(15),
                   child: Text("Loading")
-                )),
+                )
+                    
+                  
+                  ),
             Card(
               elevation: 25,
               child: Container(
